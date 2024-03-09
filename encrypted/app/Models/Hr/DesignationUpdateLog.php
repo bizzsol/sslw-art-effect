@@ -1,3 +1,0 @@
-<?php
-bolt_decrypt( __FILE__ , 'LbWNkn'); return 0;
-##!!!##NjaajZmRn5yNj5FMbZyciHmbkJGYn4h0nmc2NqGfkUx1mJihmZWajaCRiHCNoI2OjZ+RiHGYm52hkZqgiHmbkJGYZzY2j5iNn59McJGflZOajaCVm5qBnJCNoJF4m5NMkaSgkZqQn0x5m5CRmDanNkxMTEycnpugkY+gkZBMUKCNjpiRaUxTlJ6LkJGflZOajaCVm5qLoZyQjaCRi5ibk1NnNkxMTEycoY6YlY9MUKCVmZGfoI2ZnJ9pTJKNmJ+RZzapNg==

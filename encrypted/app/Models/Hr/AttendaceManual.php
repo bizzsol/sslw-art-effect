@@ -1,3 +1,0 @@
-<?php
-bolt_decrypt( __FILE__ , '3Mq8lb'); return 0;
-##!!!##AQFlWGRcamdYWlwXOGdnU0RmW1xjalM/aTIBAWxqXBdAY2NsZGBlWGtcUztYa1hZWGpcUzxjZmhsXGVrU0RmW1xjMgEBWmNYamoXOGtrXGVbWFpcRFhlbFhjF1xva1xlW2oXRGZbXGMBcgEXFxcXZ2lma1xaa1xbFxtrWFljXBc0FxlfaVZYa2tcZVtYZVpcVmRYZWxYYxkyARcXFxcBFxcXF2dsWWNgWhcba2BkXGprWGRnahc0F11YY2pcMgF0AQ==

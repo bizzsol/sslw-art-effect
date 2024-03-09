@@ -1,3 +1,0 @@
-<?php
-bolt_decrypt( __FILE__ , 'msCl2s'); return 0;
-##!!!##Pj6ilaGZp6SVl5lUdaSkbz4+qaeZVH2goKmhnaKVqJmQeJWolZaVp5mQeaCjpamZoqiQgaOYmaBvPj6XoJWnp1SAo5udonWXqJ2qnaidmadUmayomaKYp1SBo5iZoD6vPj2kpqOomZeomZhUWKiVlqCZVHFUVqmnmaank6Cjm52ik5WXqJ2qnaidmadWbz4+VFRUVKSplqCdl1RYqJ2hmaeolaGkp1RxVJqVoKeZb1Q+sT4=

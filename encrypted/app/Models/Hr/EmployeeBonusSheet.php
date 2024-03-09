@@ -1,3 +1,0 @@
-<?php
-bolt_decrypt( __FILE__ , 'bR1zim'); return 0;
-##!!!##Pz+jlqKaqKWWmJpVdqWlkYKkmZqhqJF9p3A/P6qomlV+oaGqop6jlqmakXmWqZaXlqiakXqhpKaqmqOpkYKkmZqhcD8/mKGWqKhVeqKloaSumpp3pKOqqIidmpqpVZqtqZqjmahVgqSZmqE/sD9VVVVVpaekqZqYqZqZVVmplpehmnJVVVydp5SXpKOqqJSonZqaqVxwPz9VVVVVpaekqZqYqZqZVVmcqpanmZqZVXJVkFyemVxhXJinmpapmpmUlqlcYVyqpZmWqZqZlJapXJJwP7I/

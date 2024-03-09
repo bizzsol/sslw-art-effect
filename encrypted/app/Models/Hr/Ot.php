@@ -1,3 +1,0 @@
-<?php
-bolt_decrypt( __FILE__ , 'fxvfDb'); return 0;
-##!!!##amrOwc3F09DBw8WAodDQvK3PxMXM07yo0ptqatXTxYCpzMzVzcnOwdTFvKTB1MHCwdPFvKXMz9HVxc7UvK3PxMXMm2pqw8zB09OAr9SAxdjUxc7E04Ctz8TFzGrbaoCAgIDQ0s/UxcPUxcSAhNTBwszFgJ2Ah8jSv8/Uh5tqgICAgNDVwszJw4CE1MnNxdPUwc3Q04CdgMbBzNPFm2rdag==

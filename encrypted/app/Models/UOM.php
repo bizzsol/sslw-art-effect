@@ -1,3 +1,0 @@
-<?php
-bolt_decrypt( __FILE__ , 'iszpo3'); return 0;
-##!!!##cnLWydXN29jJy82IqdjYxLXXzM3U26Nyct3bzYix1NTd1dHWydzNxKzJ3MnKydvNxK3U19ndzdbcxLXXzM3Uo3Jyy9TJ29uIvbe1iM3g3M3WzNuItdfMzdRy43KIiIiI2NrX3M3L3M3MiIzcycrUzYiliI/d19WPo3KIiIiI2NrX3M3L3M3MiIzO0dTUycrUzYiliMOP1c3J293azdXN1tzH1snVzY+UiI/Vzcnb3drN1c3W3Mfb0Nfa3MfWydXNj8WjcuVy

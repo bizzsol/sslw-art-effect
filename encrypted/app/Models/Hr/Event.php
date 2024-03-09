@@ -1,3 +1,0 @@
-<?php
-bolt_decrypt( __FILE__ , 'ohl8p7'); return 0;
-##!!!##LCyQg4+HlZKDhYdCY5KSfm+RhoeOlX5qlF0sLJeVh0Jrjo6Xj4uQg5aHfmaDloOEg5WHfmeOkZOXh5CWfm+RhoeOXSwshY6DlZVCZ5iHkJZCh5qWh5CGlUJvkYaHjiydLEJCQkKSlJGWh4WWh4ZCRpaDhI6HX0JEipSBh5iHkJaVRF0sQkJCQpKUkZaHhZaHhkJGiIuOjoOEjodffUmHmIeQloGWi5aOh0lOQkmHmIeQloGVloOUlklOQkmHmIeQloGHkIZJf10snyw=
