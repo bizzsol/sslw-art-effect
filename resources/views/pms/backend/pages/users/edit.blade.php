@@ -7,7 +7,6 @@
 @endsection
 
 @section('main-content')
-<!-- WRAPPER CONTENT ----------------------------------------------------------------------------->
 <div class="main-content">
     <div class="main-content-inner">
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -23,8 +22,7 @@
                 <li class="top-nav-btn">
                    <a href="javascript:history.back()" class="btn btn-sm btn-warning text-white" data-toggle="tooltip" title="Back" > <i class="las la-chevron-left"></i>Back</a>
                </li>
-           </ul><!-- /.breadcrumb -->
-
+           </ul>
        </div>
 
        <div class="page-content">
@@ -273,12 +271,8 @@
         <div class="form-group row">
             <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Cost Centre</strong></label>
             <div class="col-6">
-                <select name="cost_centre_id" id="cost_centre_id" class="form-control rounded">
-                    @if(isset($costCentres[0]))
-                    @foreach($costCentres as $key => $costCentre)
-                    <option value="{{ $costCentre->id }}" {{ $user->cost_centre_id == $costCentre->id ? 'selected' : '' }}>{{ $costCentre->name }}</option>
-                    @endforeach
-                    @endif
+                <select name="cost_centre_id" id="cost_centre_id" class="form-control rounded choose-me" data-selected="{{ $user->cost_centre_id }}">
+                    {!! getCostCentres() !!}
                 </select>
 
                 @if ($errors->has('cost_centre_id'))
@@ -402,6 +396,10 @@
 
 <script>
     $(document).ready(function() {
+        $.each($('.choose-me'), function(index, val) {
+            $(this).select2().val($(this).attr('data-selected')).trigger("change");
+        });
+        
         $('#check_all').change(function () {
             if($('#check_all').is(':checked')){
                 $('.permissions').prop('checked', true);

@@ -36,11 +36,11 @@
                             </div>
                             <div class="col-md-3">
                               <label for="hr_department_min_range"><strong>Minimum Range <span class="text-danger">&nbsp;*</span></strong></label>
-                              <input type="number" class="form-control" name="hr_department_min_range" value="{{ old('hr_department_min_range') }}" id="hr_department_min_range">
+                              <input type="number" class="form-control" name="hr_department_min_range" value="{{ old('hr_department_min_range', 0) }}" id="hr_department_min_range">
                             </div>
                             <div class="col-md-3">
                               <label for="hr_department_max_range"><strong>Maximum Range <span class="text-danger">&nbsp;*</span></strong></label>
-                              <input type="number" class="form-control" name="hr_department_max_range" value="{{ old('hr_department_max_range') }}" id="hr_department_max_range">
+                              <input type="number" class="form-control" name="hr_department_max_range" value="{{ old('hr_department_max_range', 10000000) }}" id="hr_department_max_range">
                             </div>
                           </div>
                           <button type="submit" class="mt-2 btn btn-success rounded">

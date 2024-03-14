@@ -30,6 +30,11 @@
                             <label for="module"><strong>Module :</strong></label>
                             <select class="form-control" name="module" id="module">
                               <option value="employees">Employees</option>
+                              <option value="designations">Designations</option>
+                              <option value="chart-of-accounts">Chart of Accounts</option>
+                              <option value="profit-centres">Profit Centre</option>
+                              <option value="cost-centres">Cost Centre</option>
+                              <option value="bank-accounts">Bank Account</option>
                             </select>
                           </div>
                           <div class="col-md-6">

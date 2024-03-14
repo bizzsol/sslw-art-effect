@@ -11,7 +11,6 @@
 @endsection
 
 @section('main-content')
-<!-- WRAPPER CONTENT ----------------------------------------------------------------------------->
 <div class="main-content">
     <div class="main-content-inner">
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -27,8 +26,7 @@
                 <li class="top-nav-btn">
                     <a href="javascript:history.back()" class="btn btn-sm btn-warning text-white" data-toggle="tooltip" title="Back" > <i class="las la-chevron-left"></i>Back</a>
                 </li>
-            </ul><!-- /.breadcrumb -->
-
+            </ul>
         </div>
 
         <div class="page-content">
@@ -299,9 +297,7 @@
                             <div class="col-6">
                                 <select name="cost_centre_id" id="cost_centre_id" class="form-control rounded">
                                     <option value="{{ null }}">Choose Cost Centre</option>
-                                    @foreach($costCentres as $key => $costCentre)
-                                    <option value="{{ $costCentre->id }}">{{ $costCentre->name }}</option>
-                                    @endforeach
+                                    {!! getCostCentres() !!}
                                 </select>
 
                                 @if ($errors->has('cost_centre_id'))
