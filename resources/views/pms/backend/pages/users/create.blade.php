@@ -403,26 +403,8 @@
         </div>
     </div>
 </div>
-<!-- END WRAPPER CONTENT ------------------------------------------------------------------------->
-
 @endsection
-
 @section('page-script')
-<script>
-    function photoLoad(input,image_load) {
-        var target_image='#'+$('#'+image_load).prev().children().attr('id');
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $(target_image).attr('src', e.target.result);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
-
 <script>
     $(document).ready(function() {
         $('#check_all').change(function () {
@@ -454,6 +436,19 @@
         updateSections();
     });
 
+    function photoLoad(input,image_load) {
+        var target_image='#'+$('#'+image_load).prev().children().attr('id');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(target_image).attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
     function updateSections() {
         var departments = $("#user_department_id :selected").map(function(i, el) {
             return $(el).val();
@@ -478,44 +473,9 @@
         });
     }
 
-    (function ($) {
-        "use script";
-        $('[data-toggle="tooltip"]').tooltip();
-        const form = document.getElementById('requisitionForm');
-        const tableContainer = document.getElementById('dataTable').querySelector('tbody');
-
-        const showAlert = (status, error) => {
-            swal({
-                icon: status,
-                text: error,
-                dangerMode: true,
-                buttons: {
-                    cancel: false,
-                    confirm: {
-                        text: "OK",
-                        value: true,
-                        visible: true,
-                        closeModal: true
-                    },
-                },
-            }).then((value) => {
-                if(value)form.reset();
-            });
-        };
-
-
-
-        $('#addRequisitionTypeBtn').on('click', function () {
-            $('#requisitionTypeModal').modal('show');
-            form.setAttribute('data-type', 'post');
-        });
-    })(jQuery);
-
     function checkUsers() {
         var associateId = $('#associate_id').val();
-
         if (associateId !='') {
-
             $.ajax({
                 url: '{{url('pms/admin/check-user')}}/'+associateId,
                 type: 'get',
@@ -551,7 +511,6 @@
                     }
                 }
             });
-
         }else{
             notify('Please enter UID','error');
         }   
