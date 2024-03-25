@@ -1,11 +1,5 @@
 @extends('pms.backend.layouts.master-layout')
-
 @section('title', session()->get('system-information')['name']. ' | '.$title)
-
-@section('page-css')
-
-@endsection
-
 @section('main-content')
 <div class="main-content">
     <div class="main-content-inner">
@@ -29,259 +23,234 @@
         <div class="">
             <div class="panel panel-info">
                 <div class="panel-body">
-                    {!! Form::model($user,array('route' => ['pms.admin.users.update',$user->id],'method'=>'PUT','class'=>'','files'=>true)) !!}
+                    {!! Form::model($user,array('route' => ['pms.admin.users.update',$user->id],'method'=>'PUT','class'=>'user-form','files'=>true)) !!}
 
-                    <!--begin::Form-->
-                    <div class="form-group row">
-                        <label for="example-text-input" class="col-3 col-form-label text-right"><strong>UID <sup class="text-danger">*</sup></strong></label>
-                        <div class="col-5">
-                            {!! Form::text('associate_id', $value=old('associate_id'), array('placeholder' => 'UID','class' => 'form-control','id' => 'associate_id','required'=>false)) !!}
-
-                            @if ($errors->has('associate_id'))
-                            <span class="help-block">
-                                <strong class="text-danger">{{ $errors->first('associate_id') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                        <div class="col-2">
-                            <a  class="btn btn-sm btn-success checkUsers" onclick="checkUsers()"><i class="las la-check-circle" type="button"></i>Search</a>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Name <sup class="text-danger">*</sup></strong></label>
-                        <div class="col-6">
-                            {!! Form::text('name', $value=old('name',$user->name), array('placeholder' => 'Name','class' => 'form-control','required'=>true)) !!}
-
-                            @if ($errors->has('name'))
-                            <span class="help-block">
-                                <strong class="text-danger">{{ $errors->first('name') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Phone <sup class="text-danger">*</sup></strong></label>
-                        <div class="col-6">
-                            {!! Form::text('phone', $value=old('phone',$user->phone), array('placeholder' => 'Phone','class' => 'form-control','required'=>true)) !!}
-
-                            @if ($errors->has('phone'))
-                            <span class="help-block">
-                                <strong class="text-danger">{{ $errors->first('phone') }}</strong>
-                            </span>
-                            @endif
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 25%" class="pt-2 pb-2"><strong>UID</strong></td>
+                                        <td style="width: 15%" class="pt-2 pb-2"><strong>Designation</strong></td>
+                                        <td style="width: 15%" class="pt-2 pb-2"><strong>SBU</strong></td>
+                                        <td style="width: 15%" class="pt-2 pb-2"><strong>Department</strong></td>
+                                        <td style="width: 15%" class="pt-2 pb-2"><strong>Section</strong></td>
+                                        <td style="width: 15% " class="pt-2 pb-2"><strong>Location</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="row mb-0">
+                                                <div class="col-md-8">
+                                                    <div class="form-group mb-0">
+                                                        {!! Form::text('associate_id', $value=old('associate_id'), array('placeholder' => 'UID','class' => 'form-control','id' => 'associate_id','required'=>false)) !!}
+                                                        @if ($errors->has('associate_id'))
+                                                        <span class="help-block">
+                                                            <strong class="text-danger">{{ $errors->first('associate_id') }}</strong>
+                                                        </span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-0">
+                                                    <a  class="btn btn-sm btn-success checkUsers btn-block" onclick="checkUsers()"><i class="las la-search" type="button"></i></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td id="designation_id">{{ $user->employee->designation->hr_designation_name }}</td>
+                                        <td id="as_unit_id">{{ $user->employee->unit->hr_unit_name }}</td>
+                                        <td id="department_id">{{ $user->employee->department->hr_department_name }}</td>
+                                        <td id="section_id">{{ $user->employee->section->hr_section_name }}</td>
+                                        <td id="location_id">{{ $user->employee->location->hr_location_name }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Email</strong></label>
-                        <div class="col-6">
-                            {!! Form::email('email', $value=old('email',$user->email), array('placeholder' => 'Email address','class' => 'form-control','required'=>false)) !!}
+                    <div class="row">
+                        <div class="col-md-5">
+                           <div class="form-group">
+                                <label><strong>Name <span class="text-danger">*</span></strong></label>
+                                {!! Form::text('name', $value=old('name'), array('placeholder' => 'Name','class' => 'form-control','required'=>true,'id'=>'name')) !!}
 
-                            @if ($errors->has('email'))
-                            <span class="help-block">
-                                <strong class="text-danger">{{ $errors->first('email') }}</strong>
-                            </span>
-                            @endif
-                        </div>
-                    </div>
-
-
-                    <div class="form-group row">
-                        <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Profile Photo</strong></label>
-                        <div class="col-6">
-
-                            <label class="slide_upload" for="file">
-                                <!--  -->
-                                @if(isset($user->profile_photo_path) && file_exists($user->profile_photo_path))
-                                <img id="image_load" src="{{asset($user->profile_photo_path)}}" style="width: 150px;height: 150px;cursor:pointer">
-                                @else
-
-                                <img id="image_load" src="{{asset('assets/images/user/09.jpg')}}" style="width: 150px; height: 150px;cursor:pointer;">
+                                @if ($errors->has('name'))
+                                <span class="help-block">
+                                    <strong class="text-danger">{{ $errors->first('name') }}</strong>
+                                </span>
                                 @endif
+                            </div> 
+                        </div>
+                        <div class="col-md-3">
+                           <div class="form-group">
+                                <label><strong>Phone <sup class="text-danger">*</sup></strong></label>
+                                {!! Form::text('phone', $value=old('phone'), array('placeholder' => 'Phone','class' => 'form-control','required'=>true,'id'=>'phone')) !!}
 
-                            </label>
-                            <input id="file" style="display:none" name="profile_photo_path" type="file" onchange="photoLoad(this,this.id)" accept="image/*">
+                                @if ($errors->has('phone'))
+                                <span class="help-block">
+                                    <strong class="text-danger">{{ $errors->first('phone') }}</strong>
+                                </span>
+                                @endif
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                           <div class="form-group">
+                                <label><strong>Email</strong></label>
+                                {!! Form::email('email', $value=old('email'), array('placeholder' => 'Email address','class' => 'form-control','required'=>false,'id'=>'email')) !!}
 
-
-                            @if ($errors->has('profile_photo_path'))
-                            <span class="help-block">
-                                <strong class="text-danger">{{ $errors->first('profile_photo_path') }}</strong>
-                            </span>
-                            @endif
+                                @if ($errors->has('email'))
+                                <span class="help-block">
+                                    <strong class="text-danger">{{ $errors->first('email') }}</strong>
+                                </span>
+                                @endif
+                            </div> 
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><strong>Assign Role(s)</strong></label>
+                                <br>
+                                <div class="form-group">
+                                  @if(isset($roles[0]))
+                                  @foreach($roles as $role)
+                                  <div class="icheck-primary d-inline">
+                                    <input type="checkbox" id="role_{{ $role->id }}" name="roles[]" value="{{ $role->id }}" {{ $user->hasRole($role->name) ? 'checked' : '' }}>
+                                    <label for="role_{{ $role->id }}" class="text-primary">
+                                      {{ $role->name }}&nbsp;&nbsp;&nbsp;
+                                    </label>
+                                  </div>
+                                  @endforeach
+                                  @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><strong>Approvals</strong></label>
+                                <br>
+                                <div class="form-group">
+                                  @if(isset($approvalLevels[0]))
+                                  @foreach($approvalLevels as $level)
+                                  <div class="icheck-primary d-inline">
+                                    <input type="checkbox" id="level_{{ $level->id }}" name="approval_levels[]" value="{{ $level->id }}" {{ $user->approvals->where('approval_level_id', $level->id)->count() > 0 ? 'checked' : '' }}>
+                                    <label for="level_{{ $level->id }}" class="text-primary">
+                                      {{ $level->name }}&nbsp;&nbsp;&nbsp;
+                                    </label>
+                                  </div>
+                                  @endforeach
+                                  @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><strong>Assign Warehouse(s)</strong></label>
+                                <br>
+                                <div class="form-group">
+                                  @if(isset($warehouses[0]))
+                                  @foreach($warehouses as $warehouse)
+                                  <div class="icheck-primary d-inline">
+                                    <input type="checkbox" id="warehouse_{{ $warehouse->id }}" name="warehouse_id[]" value="{{ $warehouse->id }}" {{ $user->relUsersWarehouse->where('id', $warehouse->id)->count() > 0 ? 'checked' : '' }}>
+                                    <label for="warehouse_{{ $warehouse->id }}" class="text-primary">
+                                      {{ $warehouse->name }}&nbsp;&nbsp;&nbsp;
+                                    </label>
+                                  </div>
+                                  @endforeach
+                                  @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                              <label><strong>Companies</strong></label>
+                              <br>
+                              @if(isset($companies[0]))
+                              @foreach($companies as $company)
+                              <div class="icheck-primary d-inline">
+                                <input type="checkbox" id="company_{{ $company->id }}" name="companies[]" value="{{ $company->id }}" onchange="getCompanyInformation()" class="companies" {{ $user->companies->where('company_id', $company->id)->count() > 0 ? 'checked' : '' }}>
+                                <label for="company_{{ $company->id }}" class="text-primary">
+                                  {{ $company->code }}&nbsp;&nbsp;&nbsp;
+                                </label>
+                              </div>
+                              @endforeach
+                              @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><strong>Assign Department(s)</strong></label>
+                                <br>
+                                <div id="departments-view">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><strong>Assign Section(s)</strong></label>
+                                <br>
+                                <div id="sections-view">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label><strong>Assign Cost Centre(s)</strong></label>
+                                <select name="cost_centres[]" id="cost_centres" class="form-control rounded" multiple data-placeholder="Choose Cost Centres">
+                                    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label><strong>User Cost Centre</strong></label>
+                                <select name="cost_centre_id" id="cost_centre_id" class="form-control rounded">
+                                    
+                                </select>
+
+                                @if ($errors->has('cost_centre_id'))
+                                <span class="help-block">
+                                    <strong class="text-danger">{{ $errors->first('cost_centre_id') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-6 pt-4">
+                                    <p class="mt-3"><strong>Upload Profile Photo:</strong></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="slide_upload" for="file"><img id="image_load" src="{{asset('assets/images/user/09.jpg')}}" style="width: 75px; height: 75px;cursor:pointer;">
+                                    </label>
+                                    <input id="file" style="display:none" name="profile_photo_path" type="file" onchange="photoLoad(this,this.id)" accept="image/*">
+
+                                    @if ($errors->has('profile_photo_path'))
+                                    <span class="help-block">
+                                        <strong class="text-danger">{{ $errors->first('profile_photo_path') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
-
-                    <div class="form-group row">
-                        <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Unit</strong></label>
-                        <div class="col-6">
-                         {!! Form::text('as_unit_id', isset($user->employee->unit) ? $user->employee->unit->hr_unit_name : '', array('placeholder' => 'Unit name','class' => 'form-control','readonly'=>true,'id'=>'as_unit_id')) !!}
-                     </div>
-                 </div>
-
-                 <div class="form-group row">
-                    <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Location</strong></label>
-                    <div class="col-6">
-                     {!! Form::text('as_location', isset($user->employee->location) ? $user->employee->location->hr_location_name : '', array('placeholder' => 'Location name','class' => 'form-control','readonly'=>true,'id'=>'location_id')) !!}
-                 </div>
-             </div>
-
-             <div class="form-group row">
-                <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Department</strong></label>
-                <div class="col-6">
-                 {!! Form::text('as_department_id', isset($user->employee->department) ? $user->employee->department->hr_department_name : '', array('placeholder' => 'Department name','id'=>'department_id','class' => 'form-control','readonly'=>true)) !!}
-             </div>
-         </div>
-
-         <div class="form-group row">
-                <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Section</strong></label>
-                <div class="col-6">
-                 {!! Form::text('as_section_id', isset($user->employee->section) ? $user->employee->section->hr_section_name : '', array('placeholder' => 'Section name','id'=>'section_id','class' => 'form-control','readonly'=>true)) !!}
-             </div>
-         </div>
-
-         <div class="form-group row">
-            <label for="example-text-input" class="col-3 col-form-label text-right"> <strong>Designation</strong></label>
-            <div class="col-6">
-                {!! Form::text('as_designation_id', isset($user->employee->designation) ? $user->employee->designation->hr_designation_name : '', array('placeholder' => 'Designation name','id'=>'designation_id','class' => 'form-control','readonly'=>true)) !!}
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Assign Role(s)</strong></label>
-            <div class="col-6">
-                {!! Form::select('roles[]', $roles,$userRole, array('id'=>'','class' => 'form-control','multiple'=>true,'required'=>true)) !!}
-                @if ($errors->has('roles'))
-                <span class="help-block">
-                    <strong class="text-danger">{{ $errors->first('roles') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Assign Unit(s)</strong></label>
-            <div class="col-6">
-                <select name="user_unit_id[]" id="user_unit_id" class="form-control select2 rounded" multiple>
-                   @if(isset($units[0]))
-                   @foreach($units as $key => $unit)
-                   <option value="{{ $unit->hr_unit_id }}" {{ $user->priorities->where('hr_unit_id', $unit->hr_unit_id)->count() > 0 ? 'selected' : '' }}>{{ $unit->hr_unit_name }}</option>
-                   @endforeach
-                   @endif
-                </select>
-
-                @if ($errors->has('user_unit_id'))
-                <span class="help-block">
-                    <strong class="text-danger">{{ $errors->first('user_unit_id') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Assign Depertment(s)</strong></label>
-            <div class="col-6">
-                <select name="user_department_id[]" id="user_department_id" class="form-control select2 rounded" multiple onchange="updateSections()">
-                   @if(isset($departments[0]))
-                   @foreach($departments as $key => $department)
-                   <option value="{{ $department->hr_department_id }}" {{ $user->priorities->where('hr_department_id', $department->hr_department_id)->count() > 0 ? 'selected' : '' }}>{{ $department->hr_department_name }}</option>
-                   @endforeach
-                   @endif
-                </select>
-
-                @if ($errors->has('user_department_id'))
-                <span class="help-block">
-                    <strong class="text-danger">{{ $errors->first('user_department_id') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Assign Section(s)</strong></label>
-            <div class="col-6">
-                <select name="user_section_id[]" id="user_section_id" class="form-control select2 rounded" multiple>
-                   @if(isset($sections[0]))
-                   @foreach($sections as $key => $section)
-                   <option value="{{ $section->hr_section_id }}" data-department-id="{{ $section->hr_section_department_id }}" {{ $user->priorities->where('hr_section_id', $section->hr_section_id)->count() > 0 ? 'selected' : '' }}>{{ $section->department->hr_department_name }} - {{ $section->hr_section_name }}</option>
-                   @endforeach
-                   @endif
-                </select>
-
-                @if ($errors->has('user_section_id'))
-                <span class="help-block">
-                    <strong class="text-danger">{{ $errors->first('user_section_id') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Assign Warehouse(s)</strong></label>
-            <div class="col-6">
-                {!! Form::select('warehouse_id[]',$warehouse,$userWarehouse,array('id'=>'','class' => 'form-control','multiple'=>true)) !!}
-
-                @if ($errors->has('warehouse_id'))
-                <span class="help-block">
-                    <strong class="text-danger">{{ $errors->first('warehouse_id') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Companies</strong></label>
-            <div class="col-6">
-                <div class="form-group">
-                  @if(isset($companies[0]))
-                  @foreach($companies as $company)
-                  <div class="icheck-primary d-inline">
-                    <input type="checkbox" id="entry_type_{{ $company->id }}" name="companies[]" value="{{ $company->id }}" {{ in_array($company->id, $user->companies->pluck('company_id')->toArray()) ? 'checked' : '' }}>
-                    <label for="entry_type_{{ $company->id }}" class="text-primary">
-                      {{ $company->name }}&nbsp;&nbsp;&nbsp;
-                    </label>
-                  </div>
-                  @endforeach
-                  @endif
-                </div>
-            </div>
-        </div>
-        
-        <div class="form-group row">
-            <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Approvals</strong></label>
-            <div class="col-6">
-                <div class="form-group">
-                  @if(isset($approvalLevels[0]))
-                  @foreach($approvalLevels as $level)
-                  <div class="icheck-primary d-inline">
-                    <input type="checkbox" id="level_{{ $level->id }}" name="approval_levels[]" value="{{ $level->id }}" {{ in_array($level->id, $user->approvals->pluck('approval_level_id')->toArray()) ? 'checked' : '' }}>
-                    <label for="level_{{ $level->id }}" class="text-primary">
-                      {{ $level->name }}&nbsp;&nbsp;&nbsp;
-                    </label>
-                  </div>
-                  @endforeach
-                  @endif
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="example-text-input" class="col-3 col-form-label text-right"><strong>Cost Centre</strong></label>
-            <div class="col-6">
-                <select name="cost_centre_id" id="cost_centre_id" class="form-control rounded choose-me" data-selected="{{ $user->cost_centre_id }}">
-                    {!! getCostCentres() !!}
-                </select>
-
-                @if ($errors->has('cost_centre_id'))
-                <span class="help-block">
-                    <strong class="text-danger">{{ $errors->first('cost_centre_id') }}</strong>
-                </span>
-                @endif
-            </div>
-        </div>
 
         <div class="form-group row">
             @if ($errors->has('permission'))
@@ -360,7 +329,7 @@
 
         <div class="row pt-3">
             <div class="col-md-6 offset-md-3">
-                <button type="submit" class="btn btn-primary"><i class="la la-check"></i>&nbsp;Update User</button>
+                <button type="submit" class="btn btn-primary user-from-button"><i class="la la-check"></i>&nbsp;Update User</button>
                 @can('user-list')
                 <a href="{{route('pms.admin.users.index')}}" class="btn btn-secondary"><i class="la la-times"></i>&nbsp;Cancel </a>
                 @endcan
@@ -378,10 +347,6 @@
 @section('page-script')
 <script>
     $(document).ready(function() {
-        $.each($('.choose-me'), function(index, val) {
-            $(this).select2().val($(this).attr('data-selected')).trigger("change");
-        });
-
         $('#check_all').change(function () {
             if($('#check_all').is(':checked')){
                 $('.permissions').prop('checked', true);
@@ -407,8 +372,6 @@
                 $('.permission-permissions-'+$(this).attr('data-counter')).prop('checked', false);
             }
         });
-
-        updateSections();
     });
 
     function photoLoad(input,image_load) {
@@ -424,70 +387,134 @@
         }
     }
 
-    function updateSections() {
-        var departments = $("#user_department_id :selected").map(function(i, el) {
-            return $(el).val();
+    getCompanyInformation();
+    function getCompanyInformation() {
+        var companies = $('input:checkbox.companies:checked').map(function () {
+            return this.value;
         }).get();
 
-        $.each($('#user_section_id').find('option'), function(index, val) {
-           if($.inArray($(this).attr('data-department-id'), departments) != -1){
-            $(this).removeAttr('hidden');
-           }else{
-            $(this).attr('hidden', 'hidden');
-           }
-        });
-          
-        $('#user_section_id').select2({
-            tags: true,
-            templateResult: function(option) {
-              if(option.element && (option.element).hasAttribute('hidden')){
-                 return null;
-              }
-              return option.text;
-           }
-        });
-    }
-
-    function checkUsers() {
-        var associateId = $('#associate_id').val();
-        if (associateId !='') {
-            $.ajax({
-                url: '{{url('pms/admin/check-user')}}/'+associateId,
-                type: 'get',
-                success: (data) => {
-
-                    if (data.status === 200) {
-                        $('#name').val(data.employee.as_name);
-                        $('#as_unit_id').val(data.employee.unit.hr_unit_name);
-                        $('#location_id').val(data.employee.location.hr_location_name);
-                        $('#department_id').val(data.employee.department.hr_department_name);
-                        $('#designation_id').val(data.employee.designation.hr_designation_name);
-                    }
-
-                    if (data.status === 400) {
-                        $('#name').val();
-                        $('#as_unit_id').val();
-                        $('#location_id').val();
-                        $('#department_id').val();
-                        $('#designation_id').val();
-                        $('#phone').val();
-                        $('#email').val();
-                        $('#roles').select2().val().trigger('change');
-                        $('#warehouse_id').select2().val().trigger('change');
-                        notify('No user information found with this UID.','error');
-                    }
-                    if (data.exists_user !=null) {
-                        $('#phone').val(data.exists_user.phone);
-                        $('#email').val(data.exists_user.email);
-                        $('#roles').select2().val(data.userRole).trigger('change');
-                        $('#warehouse_id').select2().val(data.userWarehouse).trigger('change');
-                        notify('An user already exists with this UID.','success');
-                    }
-                }
+        $.ajax({
+            url: "{{ url('pms/admin/users/create') }}?get-company-information",
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                companies: companies
+            },
+        })
+        .done(function(response) {
+            var user_departments = <?php echo json_encode($userDepartments) ?>;
+            var user_cost_centres = <?php echo json_encode($userCostCentres) ?>;
+            var user_cost_centre_id = "{{ $user->cost_centre_id }}";
+            var departments = '';
+            $.each(response.units, function(index, unit) {
+                departments += '<div class="row mb-2"><div class="col-md-12 mb-2"><h6>['+unit.hr_unit_code+'] '+unit.hr_unit_name+'</h6></div><div class="col-md-12">';
+                $.each(unit.departments, function(index, department) {
+                    departments += '<div class="icheck-primary d-inline">'+
+                                        '<input type="checkbox" id="user_department_id_'+department.hr_department_id+'" name="user_department_id[]" value="'+department.hr_department_id+'" onchange="getSections()" class="user_department_id" '+(user_departments.includes(department.hr_department_id) ? 'checked' : '')+'>'+
+                                        '<label for="user_department_id_'+department.hr_department_id+'" class="text-primary">['+department.hr_department_code+'] '+department.hr_department_name+'&nbsp;&nbsp;&nbsp;</label>'+
+                                    '</div>';
+                });
+                departments += '</div></div>';
             });
-        }else{
-            notify('Please enter UID','error');
-        }   
+            $('#departments-view').html(departments);
+
+            var cost_centre_multiple = '';
+            var cost_centre_id = '';
+            $.each(response.companies, function(index, company) {
+                cost_centre_multiple += '<optgroup label="['+company.code+'] '+company.name+'">';
+                $.each(company.profit_centres, function(index, profit_centre) {
+                    cost_centre_multiple += '<optgroup label="&nbsp;&nbsp;['+profit_centre.code+'] '+profit_centre.name+'">';
+                    $.each(profit_centre.cost_centres, function(index, cost_centre) {
+                        cost_centre_multiple += '<option value="'+cost_centre.id+'" '+(user_cost_centres.includes(cost_centre.id) ? 'selected' : '')+'>&nbsp;&nbsp;&nbsp;&nbsp;['+cost_centre.code+'] '+cost_centre.name+'</option>'
+                    });
+                    cost_centre_multiple += '</optgroup>';
+                });
+                cost_centre_multiple += '</optgroup>';
+
+                cost_centre_id += '<optgroup label="['+company.code+'] '+company.name+'">';
+                $.each(company.profit_centres, function(index, profit_centre) {
+                    cost_centre_id += '<optgroup label="&nbsp;&nbsp;['+profit_centre.code+'] '+profit_centre.name+'">';
+                    $.each(profit_centre.cost_centres, function(index, cost_centre) {
+                        cost_centre_id += '<option value="'+cost_centre.id+'" '+(user_cost_centre_id == cost_centre.id ? 'selected' : '')+'>&nbsp;&nbsp;&nbsp;&nbsp;['+cost_centre.code+'] '+cost_centre.name+'</option>'
+                    });
+                    cost_centre_id += '</optgroup>';
+                });
+                cost_centre_id += '</optgroup>';
+            });
+            
+            $('#cost_centres').html(cost_centre_multiple).select2();
+            $('#cost_centre_id').html(cost_centre_id).select2();
+
+            getSections();
+        });
     }
+
+    function getSections() {
+        var departments = $('input:checkbox.user_department_id:checked').map(function () {
+            return this.value;
+        }).get();
+
+        $.ajax({
+            url: "{{ url('pms/admin/users/create') }}?get-department-information",
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                departments: departments
+            },
+        })
+        .done(function(response) {
+            var user_sections = <?php echo json_encode($userSections) ?>;
+            var sections = '';
+            $.each(response.departments, function(index, department) {
+                sections += '<div class="row mb-2"><div class="col-md-12 mb-2"><h6>['+department.hr_department_code+'] '+department.hr_department_name+'</h6></div><div class="col-md-12">';
+                $.each(department.sections, function(index, section) {
+                    sections += '<div class="icheck-primary d-inline">'+
+                                        '<input type="checkbox" id="user_section_id_'+section.hr_section_id+'" name="user_section_id[]" value="'+section.hr_section_id+'" class="user_section_id" '+(user_sections.includes(section.hr_section_id) ? 'checked' : '')+'>'+
+                                        '<label for="user_section_id_'+section.hr_section_id+'" class="text-primary">['+section.hr_section_code+'] '+section.hr_section_name+'&nbsp;&nbsp;&nbsp;</label>'+
+                                    '</div>';
+                });
+                sections += '</div></div>';
+            });
+            $('#sections-view').html(sections);
+        });
+    }
+
+    $(document).ready(function() {
+        var form = $('.user-form');
+        var button = form.find('.user-form-button');
+        var buttonContent = button.html();
+
+        form.submit(function(event) {
+            event.preventDefault();
+            button.prop('disabled', true).html('<i class="las la-spinner la-spin"></i>&nbsp;Please wait...');
+
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                data: new FormData(form[0]),
+            })
+            .done(function(response) {
+                if(response.success){
+                    window.open("{{ route('pms.admin.users.index') }}", "_parent");
+                }else{
+                    notify(response.message, 'error');
+                }
+                button.prop('disabled', false).html(buttonContent);
+            })
+            .fail(function(response) {
+                var errors = '<ul class="pl-3">';
+                $.each(response.responseJSON.errors, function(index, val) {
+                    errors += '<li>'+val[0]+'</li>';
+                });
+                errors += '</ul>';
+                notify(response.message, 'errors');
+
+                button.prop('disabled', false).html(buttonContent);
+            });
+        });
+    });
 </script>
 @endsection

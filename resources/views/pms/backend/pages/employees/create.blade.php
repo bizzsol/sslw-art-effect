@@ -27,44 +27,36 @@
                             @csrf
                             <div class="panel-body">
                                 <div class="form-group row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 mb-2">
                                         <label for="as_unit_id"><strong>SBU <span class="text-danger">&nbsp;*</span>
                                             </strong></label>
                                         <select name="as_unit_id" id="as_unit_id" class="form-control"
-                                                onchange="getLocations()" required>
+                                                onchange="getDepartments()" required>
                                             @if(isset($units[0]))
-                                                @foreach($units as $key => $unit)
-                                                    <option value="{{ $unit->hr_unit_id }}">{{ $unit->hr_unit_name }}</option>
-                                                @endforeach
+                                            @foreach($units as $key => $unit)
+                                                <option value="{{ $unit->hr_unit_id }}">[{{ $unit->hr_unit_code }}] {{ $unit->hr_unit_name }}</option>
+                                            @endforeach
                                             @endif
                                         </select>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <label for="as_location"><strong>Location <span
-                                                        class="text-danger">&nbsp;*</span> </strong></label>
-                                        <select name="as_location" id="as_location" class="form-control" required>
-
+                                    <div class="col-md-3 mb-2">
+                                        <label for="as_department_id"><strong>Department <span class="text-danger">&nbsp;*</span></strong></label>
+                                        <select name="as_department_id" id="as_department_id" class="form-control" onchange="getSections()" required>
+                                            
                                         </select>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <label for="as_department_id"><strong>Department <span class="text-danger">&nbsp;*</span>
-                                            </strong></label>
-                                        <select name="as_department_id" id="as_department_id" class="form-control"
-                                                onchange="getSections()" required>
-                                            @if(isset($departments[0]))
-                                                @foreach($departments as $key => $department)
-                                                    <option value="{{ $department->hr_department_id }}">{{ $department->hr_department_name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label for="as_section_id"><strong>Section <span
-                                                        class="text-danger">&nbsp;*</span> </strong></label>
+                                    <div class="col-md-3 mb-2">
+                                        <label for="as_section_id"><strong>Section <span class="text-danger">&nbsp;*</span> </strong></label>
                                         <select name="as_section_id" id="as_section_id" class="form-control" required>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3 mb-2">
+                                        <label for="as_location"><strong>Location <span class="text-danger">&nbsp;*</span> </strong></label>
+                                        <select name="as_location" id="as_location" class="form-control" required>
 
                                         </select>
                                     </div>
@@ -141,7 +133,29 @@
 @endsection
 @section('page-script')
     <script type="text/javascript">
-        getLocations();
+        getDepartments();
+        function getDepartments() {
+            var department = $('#as_department_id');
+            department.html('<option>Please wait...</option>');
+
+            $.ajax({
+                url: "{{ url('pms/employees/create') }}?get-departments&unit=" + $('#as_unit_id').val(),
+                type: 'GET',
+                dataType: 'json',
+                data: {},
+            })
+            .done(function (response) {
+                var departments = '';
+                $.each(response, function (index, val) {
+                    departments += '<option value="' + (val.hr_department_id) + '">[' + (val.hr_department_code) + '] ' + (val.hr_department_name) + '</option>';
+                });
+
+                department.html(departments);
+                getSections();
+            });
+
+            getLocations();
+        }
 
         function getLocations() {
             var location = $('#as_location');
@@ -153,17 +167,15 @@
                 dataType: 'json',
                 data: {},
             })
-                .done(function (response) {
-                    var locations = '';
-                    $.each(response, function (index, val) {
-                        locations += '<option value="' + (val.hr_location_id) + '">' + (val.hr_location_name) + '</option>';
-                    });
-
-                    location.html(locations);
+            .done(function (response) {
+                var locations = '';
+                $.each(response, function (index, val) {
+                    locations += '<option value="' + (val.hr_location_id) + '">[' + (val.hr_location_code) + '] ' + (val.hr_location_name) + '</option>';
                 });
-        }
 
-        getSections();
+                location.html(locations);
+            });
+        }
 
         function getSections() {
             var section = $('#as_section_id');
@@ -175,14 +187,14 @@
                 dataType: 'json',
                 data: {},
             })
-                .done(function (response) {
-                    var sections = '';
-                    $.each(response, function (index, val) {
-                        sections += '<option value="' + (val.hr_section_id) + '">' + (val.hr_section_name) + '</option>';
-                    });
-
-                    section.html(sections);
+            .done(function (response) {
+                var sections = '';
+                $.each(response, function (index, val) {
+                    sections += '<option value="' + (val.hr_section_id) + '">[' + (val.hr_section_code) + '] ' + (val.hr_section_name) + '</option>';
                 });
+
+                section.html(sections);
+            });
         }
     </script>
 @endsection

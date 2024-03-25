@@ -27,41 +27,39 @@
                         @method('PUT')
                         <div class="panel-body">
                           <div class="form-group row">
-                            <div class="col-md-3">
-                              <label for="as_unit_id"><strong>SBU <span class="text-danger">&nbsp;*</span> </strong></label>
-                              <select name="as_unit_id" id="as_unit_id" class="form-control" onchange="getLocations()" required>
-                                @if(isset($units[0]))
-                                @foreach($units as $key => $unit)
-                                <option value="{{ $unit->hr_unit_id }}" {{ $unit->hr_unit_id == $employee->as_unit_id ? 'selected' : '' }}>{{ $unit->hr_unit_name }}</option>
-                                @endforeach
-                                @endif
-                              </select>
-                            </div>
+                                <div class="col-md-3 mb-2">
+                                    <label for="as_unit_id"><strong>SBU <span class="text-danger">&nbsp;*</span>
+                                        </strong></label>
+                                    <select name="as_unit_id" id="as_unit_id" class="form-control"
+                                            onchange="getDepartments()" required>
+                                        @if(isset($units[0]))
+                                        @foreach($units as $key => $unit)
+                                            <option value="{{ $unit->hr_unit_id }}" {{ $employee->as_unit_id == $unit->hr_unit_id ? 'selected' : '' }}>[{{ $unit->hr_unit_code }}] {{ $unit->hr_unit_name }}</option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
 
-                            <div class="col-md-3">
-                              <label for="as_location"><strong>Location <span class="text-danger">&nbsp;*</span> </strong></label>
-                              <select name="as_location" id="as_location" class="form-control" required>
-                                
-                              </select>
-                            </div>
+                                <div class="col-md-3 mb-2">
+                                    <label for="as_department_id"><strong>Department <span class="text-danger">&nbsp;*</span></strong></label>
+                                    <select name="as_department_id" id="as_department_id" class="form-control" onchange="getSections()" required>
+                                        
+                                    </select>
+                                </div>
 
-                            <div class="col-md-3">
-                              <label for="as_department_id"><strong>Department <span class="text-danger">&nbsp;*</span> </strong></label>
-                              <select name="as_department_id" id="as_department_id" class="form-control" onchange="getSections()" required>
-                                @if(isset($departments[0]))
-                                @foreach($departments as $key => $department)
-                                <option value="{{ $department->hr_department_id }}" {{ $department->hr_department_id == $employee->as_department_id ? 'selected' : '' }}>{{ $department->hr_department_name }}</option>
-                                @endforeach
-                                @endif
-                              </select>
-                            </div>
+                                <div class="col-md-3 mb-2">
+                                    <label for="as_section_id"><strong>Section <span class="text-danger">&nbsp;*</span> </strong></label>
+                                    <select name="as_section_id" id="as_section_id" class="form-control" required>
 
-                            <div class="col-md-3">
-                              <label for="as_section_id"><strong>Section <span class="text-danger">&nbsp;*</span> </strong></label>
-                              <select name="as_section_id" id="as_section_id" class="form-control">
-                                
-                              </select>
-                            </div>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 mb-2">
+                                    <label for="as_location"><strong>Location <span class="text-danger">&nbsp;*</span> </strong></label>
+                                    <select name="as_location" id="as_location" class="form-control" required>
+
+                                    </select>
+                                </div>
                           </div>
                           <div class="form-group row">
                                 <div class="col-md-2">
@@ -121,44 +119,67 @@
 @endsection
 @section('page-script')
 <script type="text/javascript">
-    getLocations();
-    function getLocations(){
-        var location = $('#as_location');
-        location.html('<option>Please wait...</option>');
+    getDepartments();
+    function getDepartments() {
+        var department = $('#as_department_id');
+        department.html('<option>Please wait...</option>');
 
         $.ajax({
-            url: "{{ url('pms/employees/create') }}?get-locations&unit="+$('#as_unit_id').val(),
+            url: "{{ url('pms/employees/create') }}?get-departments&unit=" + $('#as_unit_id').val(),
             type: 'GET',
             dataType: 'json',
             data: {},
         })
-        .done(function(response) {
+        .done(function (response) {
+            var departments = '';
+            var as_department_id = "{{ $employee->as_department_id }}";
+            $.each(response, function (index, val) {
+                departments += '<option value="' + (val.hr_department_id) + '" '+(as_department_id == val.hr_department_id ? 'selected' : '')+'>[' + (val.hr_department_code) + '] ' + (val.hr_department_name) + '</option>';
+            });
+
+            department.html(departments);
+            getSections();
+        });
+
+        getLocations();
+    }
+
+    function getLocations() {
+        var location = $('#as_location');
+        location.html('<option>Please wait...</option>');
+
+        $.ajax({
+            url: "{{ url('pms/employees/create') }}?get-locations&unit=" + $('#as_unit_id').val(),
+            type: 'GET',
+            dataType: 'json',
+            data: {},
+        })
+        .done(function (response) {
             var locations = '';
-            var location_id = "{{ $employee->as_location_id }}";
-            $.each(response, function(index, val) {
-                locations += '<option value="'+(val.hr_location_id)+'" '+(location_id == val.hr_location_id ? 'selected' : '')+'>'+(val.hr_location_name)+'</option>';
+            var as_location = "{{ $employee->as_location }}";
+            $.each(response, function (index, val) {
+                locations += '<option value="' + (val.hr_location_id) + '" '+(as_location == val.hr_location_id ? 'selected' : '')+'>[' + (val.hr_location_code) + '] ' + (val.hr_location_name) + '</option>';
             });
 
             location.html(locations);
         });
     }
 
-    getSections();
-    function getSections(){
+    function getSections() {
         var section = $('#as_section_id');
         section.html('<option>Please wait...</option>');
 
         $.ajax({
-            url: "{{ url('pms/employees/create') }}?get-sections&department="+$('#as_department_id').val(),
+            url: "{{ url('pms/employees/create') }}?get-sections&department=" + $('#as_department_id').val(),
             type: 'GET',
             dataType: 'json',
             data: {},
         })
-        .done(function(response) {
+        .done(function (response) {
             var sections = '';
-            var section_id = "{{ $employee->as_section_id }}";
-            $.each(response, function(index, val) {
-                sections += '<option value="'+(val.hr_section_id)+'" '+(section_id == val.hr_section_id ? 'selected' : '')+'>'+(val.hr_section_name)+'</option>';
+            var as_section_id = "{{ $employee->as_section_id }}";
+            $.each(response, function (index, val) {
+                sections += '<option value="' + (val.hr_section_id) + '" '+(as_section_id == val.hr_section_id ? 'selected' : '')+'>[' + (val.hr_section_code) + '] ' + (val.hr_section_name) + '</option>';
             });
 
             section.html(sections);

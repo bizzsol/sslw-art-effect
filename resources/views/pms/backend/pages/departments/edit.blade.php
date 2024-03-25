@@ -27,19 +27,29 @@
                         @method('PUT')
                         <div class="panel-body">
                           <div class="form-group row">
-                            <div class="col-md-2">
-                              <label for="hr_department_code"><strong>Code <span class="text-danger">&nbsp;*</span></strong></label>
-                              <input type="text" class="form-control" name="hr_department_code" value="{{ old('hr_department_code', $department->hr_department_code) }}" id="hr_department_code">
-                            </div>
                             <div class="col-md-4">
-                              <label for="hr_department_name"><strong>Name <span class="text-danger">&nbsp;*</span></strong></label>
-                              <input type="text" class="form-control" name="hr_department_name" value="{{ old('hr_department_name', $department->hr_department_name) }}" id="hr_department_name">
+                              <label for="hr_unit_id"><strong>SBU <span class="text-danger">&nbsp;*</span> </strong></label>
+                              <select name="hr_unit_id" id="hr_unit_id" class="form-control">
+                                  @if(isset($units[0]))
+                                  @foreach($units as $key => $unit)
+                                  <option value="{{ $unit->hr_unit_id }}" {{ $department->hr_unit_id == $unit->hr_unit_id ? 'selected' : '' }}>{{ $unit->hr_unit_code }}] {{ $unit->hr_unit_name }}</option>
+                                  @endforeach
+                                  @endif
+                              </select>
                             </div>
                             <div class="col-md-3">
+                              <label for="hr_department_code"><strong>Department Code <span class="text-danger">&nbsp;*</span></strong></label>
+                              <input type="text" class="form-control" name="hr_department_code" value="{{ old('hr_department_code', $department->hr_department_code) }}" id="hr_department_code">
+                            </div>
+                            <div class="col-md-5">
+                              <label for="hr_department_name"><strong>Department Name <span class="text-danger">&nbsp;*</span></strong></label>
+                              <input type="text" class="form-control" name="hr_department_name" value="{{ old('hr_department_name', $department->hr_department_name) }}" id="hr_department_name">
+                            </div>
+                            <div class="col-md-6 mt-3">
                               <label for="hr_department_min_range"><strong>Minimum Range <span class="text-danger">&nbsp;*</span></strong></label>
                               <input type="number" class="form-control" name="hr_department_min_range" value="{{ old('hr_department_min_range', $department->hr_department_min_range) }}" id="hr_department_min_range">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6 mt-3">
                               <label for="hr_department_max_range"><strong>Maximum Range <span class="text-danger">&nbsp;*</span></strong></label>
                               <input type="number" class="form-control" name="hr_department_max_range" value="{{ old('hr_department_max_range', $department->hr_department_max_range) }}" id="hr_department_max_range">
                             </div>

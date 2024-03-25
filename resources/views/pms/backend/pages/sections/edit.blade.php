@@ -29,16 +29,21 @@
                             @method('PUT')
                             <div class="panel-body">
                                 <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <label for="hr_section_department_id"><strong>Department <span
-                                                        class="text-danger">&nbsp;*</span></strong></label>
-                                        <select name="hr_section_department_id" id="hr_section_department_id"
-                                                class="form-control">
-                                            @if(isset($departments[0]))
-                                                @foreach($departments as $key => $department)
-                                                    <option value="{{ $department->hr_department_id }}" {{ $department->hr_department_id == $section->hr_section_department_id ? 'selected' : '' }}>{{ $department->hr_department_name }}</option>
-                                                @endforeach
+                                    <div class="col-md-3">
+                                        <label for="hr_unit_id"><strong>SBU <span class="text-danger">&nbsp;*</span></strong></label>
+                                        <select name="hr_unit_id" id="hr_unit_id" class="form-control" required onchange="getDepartments()">
+                                            @if(isset($units[0]))
+                                            @foreach($units as $key => $unit)
+                                                <option value="{{ $unit->hr_unit_id }}" {{ $section->department->hr_unit_id == $unit->hr_unit_id ? 'selected' : '' }}>[{{ $unit->hr_unit_code }}] {{ $unit->hr_unit_name }}</option>
+                                            @endforeach
                                             @endif
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="hr_section_department_id"><strong>Department <span class="text-danger">&nbsp;*</span></strong></label>
+                                        <select name="hr_section_department_id" id="hr_section_department_id"
+                                                class="form-control" required>
+                                            
                                         </select>
                                     </div>
                                     <div class="col-md-2">
@@ -65,3 +70,26 @@
         </div>
     </div>
 @endsection
+@section('page-script')
+<script type="text/javascript">
+    getDepartments();
+    function getDepartments() {
+        $('#hr_section_department_id').html('<option value="{{ null }}">Please wait...</option>');
+        $.ajax({
+            url: "{{ url('pms/sections/create') }}?get-departments&hr_unit_id="+$('#hr_unit_id').val(),
+            type: 'GET',
+            data: {},
+        })
+        .done(function(response) {
+            var departments = '';
+            var hr_department_id = "{{ $section->hr_section_department_id }}";
+            $.each(response, function(index, val) {
+                departments += '<option value="'+val.hr_department_id+'" '+(hr_department_id == val.hr_department_id ? 'selected' : '')+'>['+val.hr_department_code+'] '+val.hr_department_name+'</option>';
+            });
+
+            $('#hr_section_department_id').html(departments);
+        });
+    }
+</script>
+@endsection
+
