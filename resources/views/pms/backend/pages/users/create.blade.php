@@ -232,7 +232,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="display: none">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label><strong>Assign Section(s)</strong></label>
@@ -528,17 +528,18 @@
             },
         })
         .done(function(response) {
-            var sections = '';
+            var sections = '<div class="row">';
             $.each(response.departments, function(index, department) {
-                sections += '<div class="row mb-2"><div class="col-md-12 mb-2"><h6>['+department.hr_department_code+'] '+department.hr_department_name+'</h6></div><div class="col-md-12">';
+                sections += '<div class="col-md-3 mb-2"><div class="col-md-12 mb-2"><h6>['+department.hr_department_code+'] '+department.hr_department_name+'</h6></div><div class="col-md-12">';
                 $.each(department.sections, function(index, section) {
                     sections += '<div class="icheck-primary d-inline">'+
-                                        '<input type="checkbox" id="user_section_id_'+section.hr_section_id+'" name="user_section_id[]" value="'+section.hr_section_id+'" class="user_section_id">'+
+                                        '<input type="checkbox" id="user_section_id_'+section.hr_section_id+'" name="user_section_id[]" value="'+section.hr_section_id+'" class="user_section_id" checked>'+
                                         '<label for="user_section_id_'+section.hr_section_id+'" class="text-primary">['+section.hr_section_code+'] '+section.hr_section_name+'&nbsp;&nbsp;&nbsp;</label>'+
                                     '</div>';
                 });
                 sections += '</div></div>';
             });
+            sections += '</div>';
             $('#sections-view').html(sections);
         });
     }
