@@ -35,6 +35,9 @@
                               <option value="profit-centres">Profit Centre</option>
                               <option value="cost-centres">Cost Centre</option>
                               <option value="bank-accounts">Bank Account</option>
+                              <option value="product-units">Product Units</option>
+                              <option value="products">Products</option>
+                              <option value="suppliers">Suppliers</option>
                             </select>
                           </div>
                           <div class="col-md-6">
