@@ -34,6 +34,7 @@
                               <option value="chart-of-accounts">Chart of Accounts</option>
                               <option value="profit-centres">Profit Centre</option>
                               <option value="cost-centres">Cost Centre</option>
+                              <option value="additional-cost-centres">Additional Cost Centre</option>
                               <option value="bank-accounts">Bank Account</option>
                               <option value="product-units">Product Units</option>
                               <option value="products">Products</option>
