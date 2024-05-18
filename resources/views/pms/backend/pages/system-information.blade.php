@@ -94,6 +94,10 @@
                                     <label for="mobile"><strong>Mobile :</strong></label>
                                     <input type="text" class="form-control" name="mobile" value="{{$systemInformation->mobile}}" id="mobile">
                                   </div>
+                                  <div class="col-md-12 mb-3">
+                                    <label for="general_conditions"><strong>General Conditions :</strong></label>
+                                    <textarea class="form-control summernote" name="general_conditions" id="general_conditions">{{$systemInformation->general_conditions}}</textarea>
+                                  </div>
                                 </div>
                               </div>
                               <div class="col-md-12">
