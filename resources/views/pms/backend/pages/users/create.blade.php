@@ -166,6 +166,26 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label><strong>Initial Panel</strong></label>
+                                    <br>
+                                    <div class="form-group">
+                                      @if(isset($modules[0]))
+                                      @foreach($modules as $module)
+                                      <div class="icheck-primary d-inline">
+                                        <input type="radio" id="module_{{ $module->slug }}" name="panel" value="{{ $module->slug }}" {{ $module->slug == 'main' ? 'checked' : '' }}>
+                                        <label for="module_{{ $module->slug }}" class="text-primary">
+                                          {{ $module->name }}&nbsp;&nbsp;&nbsp;
+                                        </label>
+                                      </div>
+                                      @endforeach
+                                      @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label><strong>Approvals</strong></label>
                                     <br>
                                     <div class="form-group">
