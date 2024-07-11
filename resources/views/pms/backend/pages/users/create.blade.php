@@ -22,7 +22,7 @@
                 <li>
                     <a href="#">PMS</a>
                 </li>
-                <li class="active">{{__($title)}}</li>
+                <li class="active">{{ $title }}</li>
                 <li class="top-nav-btn">
                     <a href="javascript:history.back()" class="btn btn-sm btn-warning text-white" data-toggle="tooltip" title="Back" > <i class="las la-chevron-left"></i>Back</a>
                 </li>
@@ -505,14 +505,22 @@
         .done(function(response) {
             var departments = '';
             $.each(response.units, function(index, unit) {
-                departments += '<div class="row mb-2"><div class="col-md-12 mb-2"><h6>['+unit.hr_unit_code+'] '+unit.hr_unit_name+'</h6></div><div class="col-md-12">';
+                departments += '<div class="row mb-2">'+
+                                    '<div class="col-md-12 mb-2">'+
+                                        '<div class="icheck-primary d-inline">'+
+                                            '<input type="checkbox"onchange="checkDepartments($(this))" id="user_unit_id_'+unit.hr_unit_id+'" data-id="'+unit.hr_unit_id+'">'+
+                                            '<label for="user_unit_id_'+unit.hr_unit_id+'" class="text-primary"><strong>['+unit.hr_unit_code+'] '+unit.hr_unit_name+'&nbsp;&nbsp;&nbsp;</strong></label>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<div class="col-md-12">';
                 $.each(unit.departments, function(index, department) {
                     departments += '<div class="icheck-primary d-inline">'+
-                                        '<input type="checkbox" id="user_department_id_'+department.hr_department_id+'" name="user_department_id[]" value="'+department.hr_department_id+'" onchange="getSections()" class="user_department_id">'+
+                                        '<input type="checkbox" id="user_department_id_'+department.hr_department_id+'" name="user_department_id[]" value="'+department.hr_department_id+'" class="user_department_id user_department_id_'+unit.hr_unit_id+'">'+
                                         '<label for="user_department_id_'+department.hr_department_id+'" class="text-primary">['+department.hr_department_code+'] '+department.hr_department_name+'&nbsp;&nbsp;&nbsp;</label>'+
                                     '</div>';
                 });
-                departments += '</div></div>';
+                departments += '</div>'+
+                            '</div>';
             });
             $('#departments-view').html(departments);
 
@@ -562,6 +570,14 @@
             sections += '</div>';
             $('#sections-view').html(sections);
         });
+    }
+
+    function checkDepartments(element) {
+        if(element.is(':checked')){
+            $('.user_department_id_'+element.attr('data-id')).prop('checked', true);
+        }else{
+            $('.user_department_id_'+element.attr('data-id')).prop('checked', false);
+        }
     }
 
     $(document).ready(function() {

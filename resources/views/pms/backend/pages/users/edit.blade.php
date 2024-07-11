@@ -427,14 +427,22 @@
             var user_cost_centre_id = "{{ $user->cost_centre_id }}";
             var departments = '';
             $.each(response.units, function(index, unit) {
-                departments += '<div class="row mb-2"><div class="col-md-12 mb-2"><h6>['+unit.hr_unit_code+'] '+unit.hr_unit_name+'</h6></div><div class="col-md-12">';
+                departments += '<div class="row mb-2">'+
+                                    '<div class="col-md-12 mb-2">'+
+                                        '<div class="icheck-primary d-inline">'+
+                                            '<input type="checkbox"onchange="checkDepartments($(this))" id="user_unit_id_'+unit.hr_unit_id+'" data-id="'+unit.hr_unit_id+'">'+
+                                            '<label for="user_unit_id_'+unit.hr_unit_id+'" class="text-primary"><strong>['+unit.hr_unit_code+'] '+unit.hr_unit_name+'&nbsp;&nbsp;&nbsp;</strong></label>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<div class="col-md-12">';
                 $.each(unit.departments, function(index, department) {
                     departments += '<div class="icheck-primary d-inline">'+
-                                        '<input type="checkbox" id="user_department_id_'+department.hr_department_id+'" name="user_department_id[]" value="'+department.hr_department_id+'" onchange="getSections()" class="user_department_id" '+(user_departments.includes(department.hr_department_id) ? 'checked' : '')+'>'+
+                                        '<input type="checkbox" id="user_department_id_'+department.hr_department_id+'" name="user_department_id[]" value="'+department.hr_department_id+'"  class="user_department_id user_department_id_'+unit.hr_unit_id+'" '+(user_departments.includes(department.hr_department_id) ? 'checked' : '')+'>'+
                                         '<label for="user_department_id_'+department.hr_department_id+'" class="text-primary">['+department.hr_department_code+'] '+department.hr_department_name+'&nbsp;&nbsp;&nbsp;</label>'+
                                     '</div>';
                 });
-                departments += '</div></div>';
+                departments += '</div>'+
+                            '</div>';
             });
             $('#departments-view').html(departments);
 
@@ -465,7 +473,7 @@
             $('#cost_centres').html(cost_centre_multiple).select2();
             $('#cost_centre_id').html(cost_centre_id).select2();
 
-            getSections();
+            // getSections();
         });
     }
 
@@ -498,6 +506,14 @@
             sections += '</div>';
             $('#sections-view').html(sections);
         });
+    }
+
+    function checkDepartments(element) {
+        if(element.is(':checked')){
+            $('.user_department_id_'+element.attr('data-id')).prop('checked', true);
+        }else{
+            $('.user_department_id_'+element.attr('data-id')).prop('checked', false);
+        }
     }
 
     $(document).ready(function() {

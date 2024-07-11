@@ -102,7 +102,7 @@
                                   <input type="text" class="form-control" name="as_contact" value="{{ old('as_contact', $employee->as_contact) }}" id="as_contact">
                                 </div>
                                 <div class="col-md-4">
-                                  <label for="as_remarks"><strong>Remarks <span class="text-danger">&nbsp;*</span> </strong></label>
+                                  <label for="as_remarks"><strong>Remarks</label>
                                   <input type="text" class="form-control" name="as_remarks" value="{{ old('as_remarks', $employee->as_remarks) }}" id="as_remarks">
                                 </div>
                           </div>

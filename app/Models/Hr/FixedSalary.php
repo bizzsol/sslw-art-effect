@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'wp2Vps'); return 0;
-##!!!##XFzAs7+3xcKztbdyk8LCrp/Btre+xa6axI1cXMfFt3Kbvr7Hv7vAs8a3rpazxrO0s8W3rpe+wcPHt8DGrp/Btre+jVxctb6zxcVymLvKt7als76zxMtyt8rGt8C2xXKfwba3vlzNXFxycnJywsTBxre1xre2cnbGs7S+t3KPcnS6xLG4u8q3trG3v8KxxbO+s8TLdI1cXHJycnLCx7S+u7Vydsa7v7fFxrO/wsVyj3K4s77Ft41cXHJyclxycnJyXM9c
+bolt_decrypt( __FILE__ , 'Bx9xJe'); return 0;
+##!!!##JCSIe4d/jYp7fX86W4qKdmeJfn+GjXZijFUkJI+NfzpjhoaPh4OIe45/dl57jnt8e41/dl+GiYuPf4iOdmeJfn+GVSQkfYZ7jY06YIOSf35te4Z7jJM6f5KOf4h+jTpniX5/hiSVJCQ6Ojo6ioyJjn99jn9+Oj6Oe3yGfzpXOjyCjHmAg5J/fnl/h4p5jXuGe4yTPFUkJDo6OjqKj3yGg306Po6Dh3+NjnuHio06VzqAe4aNf1UkJDo6OiQ6Ojo6JJck

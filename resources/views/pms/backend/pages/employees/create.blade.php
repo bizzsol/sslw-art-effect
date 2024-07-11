@@ -114,10 +114,8 @@
                                                value="{{ old('as_contact') }}" id="as_contact" >
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="as_remarks"><strong>Remarks <span class="text-danger">&nbsp;*</span>
-                                            </strong></label>
-                                        <input type="text" class="form-control" name="as_remarks"
-                                               value="{{ old('as_remarks') }}" id="as_remarks" >
+                                        <label for="as_remarks"><strong>Remarks</strong></label>
+                                        <input type="text" class="form-control" name="as_remarks" value="{{ old('as_remarks') }}" id="as_remarks" >
                                     </div>
                                 </div>
                                 <button type="submit" class="mt-2 btn btn-success rounded">
