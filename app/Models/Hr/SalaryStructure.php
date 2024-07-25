@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'AM545i'); return 0;
-##!!!##n58D9gL6CAX2+Pq11gUF8eIE+foBCPHdB9CfnwoI+rXeAQEKAv4D9gn68dn2Cfb39gj68doBBAYK+gMJ8eIE+foB0J+f+AH2CAi16PYB9gcO6AkHCvgJCgf6tfoNCfoD+Qi14gT5+gGfEJ+1tbW1BQcECfr4Cfr5tbkJ9vcB+rXStbz9B/QI9gH2Bw70CAkHCvgJCgf6vNCftbW1tQUK9wH++LW5Cf4C+ggJ9gIFCLXStfv2AQj60J8Snw==
+bolt_decrypt( __FILE__ , 'zPn1Nf'); return 0;
+##!!!##JyeLfoqCkI1+gII9Xo2NeWqMgYKJkHllj1gnJ5KQgj1miYmSioaLfpGCeWF+kX5/fpCCeWKJjI6SgouReWqMgYKJWCcngIl+kJA9cH6Jfo+WcJGPkoCRko+CPYKVkYKLgZA9aoyBgoknmCc9PT09jY+MkYKAkYKBPUGRfn+Jgj1aPUSFj3yQfol+j5Z8kJGPkoCRko+CRFgnPT09PY2Sf4mGgD1BkYaKgpCRfoqNkD1aPYN+iZCCWCeaJw==

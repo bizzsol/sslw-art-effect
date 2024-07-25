@@ -51,12 +51,12 @@
                     <div class="col-md-6 position-relative">
                         <div class="sign-in-from">
                             <form method="POST" action="{{ route('login') }}" class="mt-4">
-                              @csrf
+                            @csrf
                                 <a class="sign-in-logo text-center mb-3 " href="#">
                                     <img src="{{ asset(session()->get('system-information')['logo']) }}" class="img-fluid" alt="Bizz">
                                 </a>
                                 <div class="form-group">
-                                    <label for="email">Email address</label>
+                                    <label for="email">Email Address</label>
                                     <input name="email" type="email" class="form-control mb-0 @error('email') is-invalid @enderror" id="email" value="{{ old('email') }}" placeholder="Enter email" autofocus="autofocus">
                                     @error('email')
                                       <span class="invalid-feedback" role="alert">
@@ -66,7 +66,6 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    {{-- <a href="{{ route('password.request') }}" class="float-right">Forgot password?</a> --}}
                                     <input name="password" type="password" class="form-control mb-0 @error('password') is-invalid @enderror" id="password" placeholder="Password" value="{{ old('password') }}">
                                     @error('password')
                                       <span class="invalid-feedback" role="alert">
@@ -75,11 +74,14 @@
                                   @enderror
                                 </div>
                                 <div class="d-inline-block w-100">
-                                    <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <label class="custom-control-label" for="customCheck1">Remember Me</label>
+                                    <div class="row">
+                                        <div class="col-md-6 pt-2">
+                                            <a class="text-primary" href="{{ route('password.request') }}"><strong>Forgot Password ?</strong></a>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                        </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary float-right">Sign in</button>
                                 </div>
                                 
                             </form>
