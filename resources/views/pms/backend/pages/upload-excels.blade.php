@@ -7,12 +7,12 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="ace-icon fa fa-home home-icon"></i>
-                    <a href="{{  route('pms.dashboard') }}">{{ __('Home') }}</a>
+                    <a href="{{ route('pms.dashboard') }}">Home</a>
                 </li>
                 <li>
                     <a href="#">PMS</a>
                 </li>
-                <li class="active">{{__($title)}}</li>
+                <li class="active">{{ $title }}</li>
                 <li class="top-nav-btn">
                     <a href="javascript:history.back()" class="btn btn-sm btn-warning text-white" data-toggle="tooltip" title="Back" > <i class="las la-chevron-left"></i>Back</a>
                 </li>
@@ -26,7 +26,7 @@
                     @csrf
                       <div class="panel-body">
                         <div class="form-group row">
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                             <label for="module"><strong>Module :</strong></label>
                             <select class="form-control" name="module" id="module">
                               <option value="employees">Employees</option>
@@ -39,13 +39,42 @@
                               <option value="product-units">Product Units</option>
                               <option value="products">Products</option>
                               <option value="suppliers">Suppliers</option>
+                              <option value="fixed-assets">Fixed Assets</option>
                             </select>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-1">
+                            <label for="company_id"><strong>Company</strong></label>
+                            <select class="form-control" name="company_id" id="company_id" onchange="getCostCentres()">
+                              <option value="{{ null }}">N/A</option>
+                              @if(isset($companies[0]))
+                              @foreach($companies as $company)
+                              <option value="{{ $company->id }}">{{ $company->code }}</option>
+                              @endforeach
+                              @endif
+                            </select>
+                          </div>
+                          <div class="col-md-3">
+                            <label for="cost_centre_id"><strong>Cost Centre :</strong></label>
+                            <select class="form-control" name="cost_centre_id" id="cost_centre_id">
+                              <option value="{{ null }}">N/A</option>
+                            </select>
+                          </div>
+                          <div class="col-md-2">
+                            <label for="warehouse_id"><strong>Warehouse :</strong></label>
+                            <select class="form-control" name="warehouse_id" id="warehouse_id">
+                              <option value="{{ null }}">N/A</option>
+                              @if(isset($warehouses[0]))
+                              @foreach($warehouses as $warehouse)
+                              <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                              @endforeach
+                              @endif
+                            </select>
+                          </div>
+                          <div class="col-md-2">
                             <label for="excel_file"><strong>Excel File :</strong></label>
                             <input type="file" name="excel_file" id="excel_file" class="form-control">
                           </div>
-                          <div class="col-md-3 pt-4">
+                          <div class="col-md-2 pt-4">
                             <button type="submit" class="mt-2 btn btn-success rounded btn-block"><i class="la la-check"></i>&nbsp;Upload Excel</button>
                           </div>
                         </div>
@@ -56,4 +85,19 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('page-script')
+<script type="text/javascript">
+    function getCostCentres() {
+        $.ajax({
+            url: "{{ url('pms/upload-excels') }}?get-cost-centres&company_id="+$('#company_id').val(),
+            type: 'GET',
+            data: {},
+        })
+        .done(function(response) {
+            $('#cost_centre_id').html(response).change();
+        });
+    }
+</script>
 @endsection
