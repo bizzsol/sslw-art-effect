@@ -9,7 +9,7 @@
         </div>
      </div>
      <nav class="navbar navbar-expand-lg navbar-light p-0">
-         @include('common.top_search')
+         {{-- @include('common.top_search') --}}
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
            <i class="las la-ellipsis-h"></i>
          </button>
@@ -23,50 +23,7 @@
            <a href="#" class="iq-waves-effect" id="btnFullscreen"><i class="ri-fullscreen-line"></i></a>
          </div>
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-           <ul class="navbar-nav ml-auto navbar-list">
-
-            @php
-               $unreadNotification = unreadNotification();
-            @endphp
-
-            @if(auth()->user()->notification)
-            
-            <li class="nav-item dropdown">
-              <a href="#" class="search-toggle iq-waves-effect">
-                 <i class="las la-bell" style="font-size: 35px;color:red;animation: shadow-pulse 1s infinite;"></i>
-                 <small class="badge  badge-light float-right pt-1 notification-count">{{$unreadNotification->count()}}</small>
-              </a>
-              <div class="iq-sub-dropdown">
-                 <div class="iq-card shadow-none m-0">
-                       <div class="bg-primary p-3">
-                          <h5 class="mb-0 text-white">All Notification<small class="badge badge-light float-right pt-1"></small></h5>
-                       </div>
-                       <div class="iq-card-body p-0" style="overflow-y:auto; overflow-x: hidden; max-height:400px">
-                         @foreach($unreadNotification as $data)
-
-                         <a href="#" class="iq-sub-card" id="read{{$data->id}}">
-                            <div class="media align-items-center">
-                               <div class="media-body ml-3">
-                                  <h6 class="mb-0" style="color:#0db5c8" data-notification-id="{{ $data->id }}">{!! $data->messages !!}</h6>
-                                  {{-- <small onclick="markAsRead('{{$data->id}}')"  class="float-left font-size-12 mark-as-read">Mark as read</small> --}}
-                                  <small class="float-right font-size-12">{{date('jS F g:i a', strtotime($data->created_at))}}</small>
-                               </div>
-                            </div>
-                         </a>
-
-                         @endforeach
-                      </div>
-                      <div class="bg-primary p-1">
-                        <center>
-                           <a href="{{route('pms.requisition.view.all.notification')}}"><h5 class="mb-0 text-white">View All</h5></a>
-                        </center>
-                       </div>
-                 </div>
-              </div>
-           </li>
-           @endif
-
-         </ul>
+           <ul class="navbar-nav ml-auto navbar-list"></ul>
          </div>
          <ul class="navbar-list">
             <li>
