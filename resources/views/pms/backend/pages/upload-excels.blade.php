@@ -40,6 +40,7 @@
                               <option value="products">Products</option>
                               <option value="suppliers">Suppliers</option>
                               <option value="fixed-assets">Fixed Assets</option>
+                              <option value="closing-balance">Closing Balance</option>
                             </select>
                           </div>
                           <div class="col-md-2 mb-3">
