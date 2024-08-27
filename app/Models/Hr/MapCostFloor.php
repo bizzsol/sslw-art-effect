@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , '743siD'); return 0;
+bolt_decrypt( __FILE__ , 'JK9DVV'); return 0;
 ##!!!##yMgsHysjMS4fISPe/y4uGgstIiMqMRoGMPnIyDMxI94HKiozKycsHzIjGgIfMh8gHzEjGgMqLS8zIywyGgstIiMq+cjIISofMTHeCx8uAS0xMgQqLS0w3iM2MiMsIjHeCy0iIyrIOcje3t7eLjAtMiMhMiMi3uIyHyAqI/ve5SYwHSEtMTIdKx8uLicsJR0kKi0tMOX5yN7e3t4uMyAqJyHe4jInKyMxMh8rLjH73iQfKjEj+cg7yA==
