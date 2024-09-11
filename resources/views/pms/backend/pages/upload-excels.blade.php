@@ -41,6 +41,7 @@
                               <option value="suppliers">Suppliers</option>
                               <option value="fixed-assets">Fixed Assets</option>
                               <option value="closing-balance">Closing Balance</option>
+                              <option value="table-backup">Table Backup</option>
                             </select>
                           </div>
                           <div class="col-md-2 mb-3">
