@@ -57,6 +57,10 @@
                                   <label for="hr_unit_address"><strong>SBU Address <span class="text-danger">&nbsp;*</span> </strong></label>
                                   <input type="text" class="form-control" name="hr_unit_address" value="{{ old('hr_unit_address') }}" id="hr_unit_address">
                             </div>
+                            <div class="col-md-12 mt-3">
+                                <label for="delivery_address"><strong>Delivery Address <span class="text-danger">&nbsp;*</span> </strong></label>
+                                <textarea class="form-control summernote" name="delivery_address" id="delivery_address">{{ old('delivery_address') }}</textarea>
+                            </div>
                           </div>
                           <button type="submit" class="mt-2 btn btn-success rounded">
                               <i class="la la-check"></i>&nbsp;{{ __('Create SBU') }}

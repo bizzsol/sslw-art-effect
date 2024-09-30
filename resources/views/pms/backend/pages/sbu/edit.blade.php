@@ -61,6 +61,10 @@
                               <label for="pad_file"><strong>SBU Pad <span class="text-danger">&nbsp;*</span> </strong></label>
                               <input type="file" class="form-control" name="pad_file" id="pad_file">
                             </div>
+                            <div class="col-md-12 mt-3">
+                                <label for="delivery_address"><strong>Delivery Address <span class="text-danger">&nbsp;*</span> </strong></label>
+                                <textarea class="form-control summernote" name="delivery_address" id="delivery_address">{{ $unit->delivery_address }}</textarea>
+                            </div>
                           </div>
                           <button type="submit" class="mt-2 btn btn-success rounded">
                               <i class="la la-check"></i>&nbsp;{{ __('Update SBU') }}
