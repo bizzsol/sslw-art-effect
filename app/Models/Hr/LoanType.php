@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'BhsWw9'); return 0;
+bolt_decrypt( __FILE__ , 'fSBDov'); return 0;
 ##!!!##Li6ShZGJl5SFh4lEZZSUgHGTiImQl4Bsll8uLpmXiURtkJCZkY2ShZiJgGiFmIWGhZeJgGmQk5WZiZKYgHGTiImQXy4uh5CFl5dEcJOFknidlIlEiZyYiZKIl0Rxk4iJkC6fLkRERESUlpOYiYeYiYhESJiFhpCJRGFERoyWg5CThZKDmJ2UiUZfLi5ERERElJmGkI2HREiYjZGJl5iFkZSXRGFEioWQl4lfLqEu
