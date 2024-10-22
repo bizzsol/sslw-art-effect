@@ -42,6 +42,8 @@
                               <option value="fixed-assets">Fixed Assets</option>
                               <option value="closing-balance">Closing Balance</option>
                               <option value="table-backup">Table Backup</option>
+                              <option value="ar">Accounts Receivable</option>
+                              <option value="ap">Accounts Payable</option>
                             </select>
                           </div>
                           <div class="col-md-2 mb-3">
