@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'w7lIfR'); return 0;
-##!!!##JSWJfIiAjot8foA7XIuLd2t8foZ8goCOd2yQgI2UYJOPjXx3YJN+gIuPhIqJjlYlJZCOgDtgk36Ai4+EiolWJSV+h3yOjjtkiZF8h4R/ZoCUO4CTj4CJf447YJN+gIuPhIqJJZYlOzs7O0pFRSU7Ozs7O0U7bYCLio2PO4+DgDuAk36Ai4+EiolJJTs7Ozs7RSU7Ozs7O0U7W42Aj5CNiTuRioR/JTs7Ozs7RUolOzs7O4uQfYeEfjuBkIl+j4SKiTuNgIuKjY9DRCU7Ozs7liU7Ozs7mCWY
+bolt_decrypt( __FILE__ , '5TwcNT'); return 0;
+##!!!##Dw9zZnJqeHVmaGolRnV1YVVmaHBmbGp4YVZ6and+Sn15d2ZhSn1oanV5bnRzeEAPD3p4aiVKfWhqdXludHNADw9ocWZ4eCVOc3tmcW5pUGp+JWp9eWpzaXglSn1oanV5bnRzD4APJSUlJTQvLw8lJSUlJS8lV2p1dHd5JXltaiVqfWhqdXludHMzDyUlJSUlLw8lJSUlJS8lRXdqeXp3cyV7dG5pDyUlJSUlLzQPJSUlJXV6Z3FuaCVrenNoeW50cyV3anV0d3ktLg8lJSUlgA8lJSUlgg+C
