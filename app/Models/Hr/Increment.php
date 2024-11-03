@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'chiPON'); return 0;
-##!!!##KyuPgo6GlJGChIZBYpGRfW6QhYaNlH1pk1wrK5aUhkFqjY2WjoqPgpWGfWWClYKDgpSGfWaNkJKWho+VfW6QhYaNXCsrhI2ClJRBao+Ek4aOho+VQYaZlYaPhZRBbpCFho0rnCtBQUFBkZOQlYaElYaFQUWVgoONhkFeQUOJk4CKj4STho6Gj5VDXCsrQUFBQZGWg42KhEFFlYqOhpSVgo6RlEFeQYeCjZSGXCueKw==
+bolt_decrypt( __FILE__ , 'ZuWsfS'); return 0;
+##!!!##XFzAs7+3xcKztbdyk8LCrp/Btre+xa6axI1cXMfFt3Kbvr7Hv7vAs8a3rpazxrO0s8W3rpe+wcPHt8DGrp/Btre+jVxctb6zxcVym8C1xLe/t8DGcrfKxrfAtsVyn8G2t75czVxycnJywsTBxre1xre2cnbGs7S+t3KPcnS6xLG7wLXEt7+3wMZ0jVxccnJycsLHtL67tXJ2xru/t8XGs7/CxXKPcrizvsW3jVzPXA==
