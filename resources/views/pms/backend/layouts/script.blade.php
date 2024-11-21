@@ -16,37 +16,45 @@
 <!-- datatable-exportable CDN -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.21/b-1.6.3/b-flash-1.6.3/b-html5-1.6.3/b-print-1.6.3/fc-3.3.1/fh-3.1.7/r-2.2.5/sc-2.0.2/datatables.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.21/b-1.6.3/b-flash-1.6.3/b-html5-1.6.3/b-print-1.6.3/fc-3.3.1/fh-3.1.7/r-2.2.5/sc-2.0.2/datatables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.colVis.min.js"></script>
 <!-- datatable-exportable CDN -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 <!-- datatable-exportable innitialization -->
 <script type="text/javascript">
     $('.mask-money').maskMoney(
-        {thousands:'', decimal:'.',allowZero: true,allowEmpty:true
-    });
-    
-    function formatMoneyMusking(number, digit, cCode){
-        return number.toLocaleString('fullwide', {maximumFractionDigits:digit, style:'currency', currency:cCode, useGrouping:true}).replaceAll(cCode,'');
+        {
+            thousands: '', decimal: '.', allowZero: true, allowEmpty: true
+        });
+
+    function formatMoneyMusking(number, digit, cCode) {
+        return number.toLocaleString('fullwide', {
+            maximumFractionDigits: digit,
+            style: 'currency',
+            currency: cCode,
+            useGrouping: true
+        }).replaceAll(cCode, '');
     }
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         var datatable_file_name = $('.datatable-exportable').attr('data-table-name');
         var table = $('.datatable-exportable').DataTable({
             lengthMenu: [
-                [ 5,10, 25, 50, 100, -1 ],
-                [ '5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
+                [5, 10, 25, 50, 100, -1],
+                ['5 rows', '10 rows', '25 rows', '50 rows', '100 rows', 'Show all']
             ],
 
             language: {
-              emptyTable: "No data available right now"
+                emptyTable: "No data available right now"
             },
-            
+
             iDisplayLength: -1,
 
             // sScrollX: "100%",
-            
+
             sScrollXInner: "100%",
             scrollCollapse: true,
 
@@ -80,7 +88,7 @@
                 {
                     extend: 'colvis',
                     collectionLayout: 'fixed four-column',
-                    attr:  {
+                    attr: {
                         id: 'ColumnsButton'
                     },
                 }
@@ -91,7 +99,7 @@
                 "visible": false
             }]
         });
-        
+
         $('.buttons-collection').addClass('btn-sm');
         $('.buttons-copy').removeClass('btn-secondary').addClass('btn-sm btn-warning').html('<i class="las la-copy"></i>').attr('title', "Copy");
         $('.buttons-csv').removeClass('btn-secondary').addClass('btn-sm btn-success').html('<i class="las la-file-csv"></i>').attr('title', "CSV");
@@ -102,9 +110,9 @@
 
         $('.datatable-exportable').parent().addClass('table-responsive');
 
-        $('.datatable-exportable').on( 'column-visibility.dt', function (e, settings, column, state){
+        $('.datatable-exportable').on('column-visibility.dt', function (e, settings, column, state) {
             var columns = [];
-            $.each($('.buttons-columnVisibility'), function(index, val) {
+            $.each($('.buttons-columnVisibility'), function (index, val) {
                 columns.push($(this).hasClass('active'));
             });
 
@@ -115,10 +123,10 @@
             });
         });
 
-        $('.word-restrictions').on("keyup change", function(e) {
+        $('.word-restrictions').on("keyup change", function (e) {
             var restrictions = "{{ implode(',', wordRestrictions()) }}".split(',');
             var input = $(this);
-            $.each(restrictions, function(index, restriction) {
+            $.each(restrictions, function (index, restriction) {
                 input.val(input.val().replace(new RegExp(restriction, "ig"), ''));
             });
         });
@@ -132,15 +140,15 @@
 
 <script>
     var count = 0;
-    var refreshIntervalId =setInterval(function(){
+    var refreshIntervalId = setInterval(function () {
         count++;
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             clearInterval(refreshIntervalId);
             jQuery("#load").fadeOut();
             jQuery("#loading").fadeOut("");
 
         });
-        if( count == 5){
+        if (count == 5) {
             clearInterval(refreshIntervalId);
             jQuery("#load").fadeOut();
             jQuery("#loading").fadeOut("");
@@ -153,9 +161,8 @@
 </script>
 <!-- Custom JavaScript -->
 @stack('js')
-@toastr_render
 <script>
-    $( document ).ajaxComplete(function() {
+    $(document).ajaxComplete(function () {
         // Required for Bootstrap tooltips in DataTables
         $('[data-toggle="tooltip"]').tooltip({
             "html": true,
@@ -171,10 +178,10 @@
     });
 
 
-    $(document).ajaxError(function(event, jqxhr, settings, exception) {
-        if (exception == 'Unauthorized') {
+    $(document).ajaxError(function (event, jqxhr, settings, exception) {
+        if (exception === 'Unauthorized') {
             $.notify("Your session has expired!", 'error');
-            setTimeout(function(){
+            setTimeout(function () {
                 window.location = '{{ url()->full() }}';
             }, 1000)
         }
@@ -204,23 +211,24 @@
     // });
 
     //Notify using swal
-    function notify(message,type) {
+    function notify(message, type) {
         swal({
             icon: type,
             text: message,
             button: false
         });
-        setTimeout(()=>{
+        setTimeout(() => {
             swal.close();
-    }, 1000);
+        }, 1000);
     }
+
     //select 2
-    $(document).ready(function() {
+    $(document).ready(function () {
         var this_link = "{{ str_replace(url('/'), '', request()->url()) }}";
-        if(this_link == "" || this_link == "/pms"){
+        if (this_link == "" || this_link == "/pms") {
             jQuery.noConflict()
         }
-        
+
         // $('.select2').select2();
 
         // $(".select2-tags").select2({
@@ -249,16 +257,16 @@
         //     });
         // });
 
-         $.each($('.notification-links'), function(index, val) {
+        $.each($('.notification-links'), function (index, val) {
             var link = $(this);
             openNotificationLinks(link);
         });
     });
 
-    function openNotificationLinks(link){
+    function openNotificationLinks(link) {
         link.css('cursor', 'pointer !important');
-        link.click(function(event) {
-            if(link.attr('data-src')){
+        link.click(function (event) {
+            if (link.attr('data-src')) {
                 var modal = $('#notificationModal');
                 modal.find('.modal-title').html(link.attr('data-title'));
                 modal.modal('show');
@@ -268,23 +276,25 @@
                     type: 'GET',
                     data: {},
                 })
-                .done(function(response) {
-                    modal.find('.modal-body').html(response);
-                    if(link.parent().attr('data-notification-id') != undefined){
-                        markAsRead(link.parent().attr('data-notification-id'));
-                    }
-                });
-            }else{
-                if(link.parent().attr('data-notification-id') != undefined){
+                    .done(function (response) {
+                        modal.find('.modal-body').html(response);
+                        if (link.parent().attr('data-notification-id') != undefined) {
+                            markAsRead(link.parent().attr('data-notification-id'));
+                        }
+                    });
+            } else {
+                if (link.parent().attr('data-notification-id') != undefined) {
                     markAsRead(link.parent().attr('data-notification-id'));
                 }
             }
         });
     }
 
-    $(document).ready(function() {
-      //$('.summernote').summernote();
-      CKEDITOR.replaceAll( 'summernote' );
+    $(document).ready(function () {
+        $('.summernote').summernote({
+            height: "150px"
+        });
+        //CKEDITOR.replaceAll('summernote');
     });
 </script>
 
@@ -298,9 +308,9 @@
         let ulIqMenu = document.querySelector('.iq-menu');
         let liIqMenu = ulIqMenu.querySelectorAll('li.iq-menu-main');
         $.map(liIqMenu, (item, key) => {
-            if(!item.querySelector("ul")){
-                let elementUrl = item.querySelector('a').getAttribute('href').replace(`${window.location.protocol}//${window.location.host}`,'')
-                if(elementUrl == window.location.pathnam){
+            if (!item.querySelector("ul")) {
+                let elementUrl = item.querySelector('a').getAttribute('href').replace(`${window.location.protocol}//${window.location.host}`, '')
+                if (elementUrl === window.location.pathnam) {
                     item.classList.add("active");
                 }
             }
@@ -310,9 +320,9 @@
         $.map(subIqMenu, function (item, key) {
             let subMenu = item.querySelectorAll('li');
             $.map(subMenu, function (element, index) {
-                let elementUrl = element.childNodes[0].getAttribute('href').replace(`${window.location.protocol}//${window.location.host}`,'');
+                let elementUrl = element.childNodes[0].getAttribute('href').replace(`${window.location.protocol}//${window.location.host}`, '');
 
-                if(window.location.pathname === elementUrl){
+                if (window.location.pathname === elementUrl) {
                     element.class = "active main-active"
                     element.parentElement.classList.add('show')
                     element.parentElement.parentElement.classList.add('active')
@@ -333,7 +343,7 @@
         timepicker: true,
     });
 
-     $('.search-datepicker').datepicker({
+    $('.search-datepicker').datepicker({
         language: 'en',
         dateFormat: 'dd-mm-yyyy',
         autoClose: true,
@@ -341,33 +351,32 @@
     });
 
 
-
     const showPreloader = (value) => {
-            if (value==='none') {
-                document.getElementById("loading").setAttribute("style", "display:none");
-            }else{
-                document.getElementById("loading").setAttribute("style", "display:block");
-            }
-        };
+        if (value === 'none') {
+            document.getElementById("loading").setAttribute("style", "display:none");
+        } else {
+            document.getElementById("loading").setAttribute("style", "display:block");
+        }
+    };
 
 
     function markAsRead(id) {
-      $.ajax({
+        $.ajax({
             url: "{{ url('pms/requisition/mark-as-read') }}",
             type: 'POST',
             dataType: 'json',
-            data: {_token: "{{ csrf_token() }}", id:id},
+            data: {_token: "{{ csrf_token() }}", id: id},
         })
-        .done(function(response) {
-            if(response.result=='success'){
-                $('#read'+id).hide();
-                $('.notification-count').html(response.total_notification);
-                //notify(response.message,response.result);
-            }
-        })
-        .fail(function(response){
-            //notify('Something went wrong!','error');
-        });
+            .done(function (response) {
+                if (response.result == 'success') {
+                    $('#read' + id).hide();
+                    $('.notification-count').html(response.total_notification);
+                    //notify(response.message,response.result);
+                }
+            })
+            .fail(function (response) {
+                //notify('Something went wrong!','error');
+            });
         //return false;
     }
 </script>

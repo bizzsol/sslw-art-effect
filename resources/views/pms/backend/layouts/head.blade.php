@@ -67,5 +67,9 @@
         .rating-container .rating-stars{
             margin-top:-15px !important;
         }
+
+        .note-icon-caret:before {
+            display: none !important;
+        }
     </style>
 </head>
