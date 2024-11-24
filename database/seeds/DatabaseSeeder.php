@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'sZ1t1R'); return 0;
-##!!!##//9qaFoVPmFhamJeY1ZpWlE5VmlWV1ZoWlFIWlpZWmcw//9YYVZoaBU5VmlWV1ZoWkhaWllaZxVabWlaY1loFUhaWllaZ/9w/xUVFRUkHx//FRUVFRUfFUhaWlkVaV1aFVZlZWFeWFZpXmRjHGgVWVZpVldWaFoj/xUVFRUVH/8VFRUVFR8VNWdaaWpnYxVrZF5Z/xUVFRUVHyT/FRUVFWVqV2FeWBVbamNYaV5kYxVnamMdHv8VFRUVcP8VFRUVFRUVFRlpXV5oIjNYVmFhHT1kYV5ZVm5IWlpZWmcvL1hhVmhoHjD/FRUVFXL//3L/
+bolt_decrypt( __FILE__ , 'gkXjaC'); return 0;
+##!!!##QkKtq51YgaSkraWhppmsnZR8mayZmpmrnZSLnZ2cnapzQkKbpJmrq1h8mayZmpmrnYudnZydqlidsKydppyrWIudnZydqkKzQlhYWFhnYmJCWFhYWFhiWIudnZxYrKCdWJmoqKShm5msoaemX6tYnJmsmZqZq51mQlhYWFhYYkJYWFhYWGJYeKqdrK2qpliup6GcQlhYWFhYYmdCWFhYWKitmqShm1ieraabrKGnpliqraZgYUJYWFhYs0JYWFhYWFhYWFysoKGrZXabmaSkYICnpKGcmbGLnZ2cnapycpukmaurYXNCWFhYWLVCQrVC
