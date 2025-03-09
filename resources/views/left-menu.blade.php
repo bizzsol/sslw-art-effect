@@ -1,3 +1,18 @@
+@php
+use App\Models\PmsModels\Menu\Menu;
+
+$menus = Menu::with([
+    'subMenu', 'activeSubMenu'
+])
+->where([
+    'module' => 'main',
+    'menu_for' => Menu::ADMIN_MENU,
+    'status' => Menu::ACTIVE
+])
+->orderBy('serial_num', 'ASC')
+->get();   
+@endphp
+
 <div class="iq-sidebar">
     <input type="hidden" value="{{ url('/') }}" id="base_url">
     <div class="iq-sidebar-logo d-flex justify-content-between">

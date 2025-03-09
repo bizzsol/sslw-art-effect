@@ -57,6 +57,19 @@
                                   <label for="hr_unit_address"><strong>SBU Address <span class="text-danger">&nbsp;*</span> </strong></label>
                                   <input type="text" class="form-control" name="hr_unit_address" value="{{ old('hr_unit_address') }}" id="hr_unit_address">
                             </div>
+                            <div class="col-md-6 mt-3">
+                              <label for="pad_file"><strong>SBU Pad <span class="text-danger">&nbsp;*</span> </strong></label>
+                              <input type="file" class="form-control" name="pad_file" id="pad_file">
+                            </div>
+                            <div class="col-md-3 mt-3">
+                              <label for="hr_unit_authorized_signature"><strong>Authorized Signature <span class="text-danger">&nbsp;*</span> </strong></label>
+                              <input type="file" class="form-control" name="hr_unit_authorized_signature" id="hr_unit_authorized_signature">
+                            </div>
+
+                            <div class="col-md-3 mt-3">
+                              <label for="hr_unit_reference_heading"><strong>Authorizer Designation <span class="text-danger">&nbsp;*</span> </strong></label>
+                              <input type="text" class="form-control" name="hr_unit_reference_heading" id="hr_unit_reference_heading">
+                            </div>
                             <div class="col-md-12 mt-3">
                                 <label for="delivery_address"><strong>Delivery Address <span class="text-danger">&nbsp;*</span> </strong></label>
                                 <textarea class="form-control summernote" name="delivery_address" id="delivery_address">{{ old('delivery_address') }}</textarea>

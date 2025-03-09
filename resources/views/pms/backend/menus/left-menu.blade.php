@@ -1,1 +1,1 @@
-@include('left-menu')
+{!! getSidebar() !!}

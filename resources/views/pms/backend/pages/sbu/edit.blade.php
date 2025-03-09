@@ -53,13 +53,21 @@
                               <label for="hr_unit_telephone"><strong>SBU Telephone <span class="text-danger">&nbsp;*</span> </strong></label>
                               <input type="text" class="form-control" name="hr_unit_telephone" value="{{ old('hr_unit_telephone', $unit->hr_unit_telephone) }}" id="hr_unit_telephone">
                             </div>
-                            <div class="col-md-6 mt-3">
+                            <div class="col-md-9 mt-3">
                               <label for="hr_unit_address"><strong>SBU Address <span class="text-danger">&nbsp;*</span> </strong></label>
                               <input type="text" class="form-control" name="hr_unit_address" value="{{ old('hr_unit_address', $unit->hr_unit_address) }}" id="hr_unit_address">
                             </div>
-                            <div class="col-md-3 mt-3">
+                            <div class="col-md-6 mt-3">
                               <label for="pad_file"><strong>SBU Pad <span class="text-danger">&nbsp;*</span> </strong></label>
                               <input type="file" class="form-control" name="pad_file" id="pad_file">
+                            </div>
+                            <div class="col-md-3 mt-3">
+                              <label for="hr_unit_authorized_signature"><strong>Authorized Signature </strong></label>
+                              <input type="file" class="form-control" name="hr_unit_authorized_signature" id="hr_unit_authorized_signature">
+                            </div>
+                            <div class="col-md-3 mt-3">
+                              <label for="hr_unit_reference_heading"><strong>Authorizer Designation <span class="text-danger">&nbsp;*</span> </strong></label>
+                              <input type="text" class="form-control" name="hr_unit_reference_heading" id="hr_unit_reference_heading" value="{{ old('hr_unit_reference_heading', $unit->hr_unit_reference_heading) }}">
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="delivery_address"><strong>Delivery Address <span class="text-danger">&nbsp;*</span> </strong></label>

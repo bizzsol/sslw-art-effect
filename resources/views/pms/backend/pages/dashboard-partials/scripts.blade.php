@@ -6,34 +6,67 @@
 <script src="https://cdn.jsdelivr.net/jquery.counterup/1.0/jquery.counterup.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    //Call The Charts
-    $.each($('.charts'), function(index, value) {
-        loadChart($(this), $(this).attr('data-chart'), $(this).attr('data-labels').split(','), $(this).attr('data-data').split(','), $(this).attr('data-legend-position'), $(this).attr('data-title-text'));
-    });
+$(document).ready(function () {
+    // Delay execution of chart loading and counter setup
+    setTimeout(function () {
+        // Call The Charts
+        $.each($('.charts'), function (index, value) {
+            loadChart(
+                $(this),
+                $(this).attr('data-chart'),
+                $(this).attr('data-labels').split(','),
+                $(this).attr('data-data').split(','),
+                $(this).attr('data-legend-position'),
+                $(this).attr('data-title-text')
+            );
+        });
 
-    $.each($('.bar-charts'), function(index, value) {
-        loadBarChart($(this), $(this).attr('data-labels'), $(this).attr('data-data'), $(this).attr('data-title-text'), $(this).attr('data-legend-position'));
-    });
+        $.each($('.bar-charts'), function (index, value) {
+            loadBarChart(
+                $(this),
+                $(this).attr('data-labels'),
+                $(this).attr('data-data'),
+                $(this).attr('data-title-text'),
+                $(this).attr('data-legend-position')
+            );
+        });
 
-    //Load The Charts
-    function loadChart(element, type, labels, data, legendPosition, titleText, responsive = true, titleDisplay = true) {
+        // Initialize Counters
+        $('.counter').counterUp({
+            delay: 10,
+            time: 1000
+        });
+    }, 2000); // Delay of 2 seconds
+
+    // Load The Charts
+    function loadChart(
+        element,
+        type,
+        labels,
+        data,
+        legendPosition,
+        titleText,
+        responsive = true,
+        titleDisplay = true
+    ) {
         var chart = new Chart(element, {
             type: type,
             data: {
                 labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: randomColors(labels.length),
-                    borderColor: '#ccc',
-                    borderWidth: '1px'
-                }]
+                datasets: [
+                    {
+                        data: data,
+                        backgroundColor: randomColors(labels.length),
+                        borderColor: '#ccc',
+                        borderWidth: '1px'
+                    }
+                ]
             },
             options: {
                 responsive: responsive,
                 plugins: {
                     legend: {
-                        position: legendPosition,
+                        position: legendPosition
                     }
                 },
                 title: {
@@ -41,21 +74,30 @@ $(document).ready(function() {
                     text: titleText
                 },
                 animation: {
-                  onComplete: function() {
-                    addDownloadOptions(chart, element);
-                  }
+                    onComplete: function () {
+                        addDownloadOptions(chart, element);
+                    }
                 }
             }
         });
     }
 
-    function loadBarChart(element, labels, data, titleText, legendPosition, responsive = true, beginAtZero = true, titleDisplay = false){
-
+    function loadBarChart(
+        element,
+        labels,
+        data,
+        titleText,
+        legendPosition,
+        responsive = true,
+        beginAtZero = true,
+        titleDisplay = false
+    ) {
         var titleTextArray = titleText.split(',');
         var dataArray = data.split('|');
         var datasets = [];
         var colors = randomColors(titleTextArray.length);
-        Array.from(titleTextArray).map((item, index)=> {
+
+        Array.from(titleTextArray).map((item, index) => {
             datasets.push({
                 label: item,
                 data: dataArray[index].split(','),
@@ -75,15 +117,17 @@ $(document).ready(function() {
             options: {
                 responsive: responsive,
                 scales: {
-                  yAxes: [{
-                    ticks: {
-                      beginAtZero: beginAtZero
-                    }
-                  }]
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: beginAtZero
+                            }
+                        }
+                    ]
                 },
                 plugins: {
                     legend: {
-                        position: legendPosition,
+                        position: legendPosition
                     }
                 },
                 title: {
@@ -91,9 +135,9 @@ $(document).ready(function() {
                     text: titleText.split(',')
                 },
                 animation: {
-                  onComplete: function() {
-                    addDownloadOptions(chart, element);
-                  }
+                    onComplete: function () {
+                        addDownloadOptions(chart, element);
+                    }
                 }
             }
         });
@@ -101,26 +145,70 @@ $(document).ready(function() {
 
     function addDownloadOptions(chart, element) {
         element.parent().find('img').remove();
-        element.parent().append('<img src="'+(chart.toBase64Image())+'" class="d-none"/>');
+        element
+            .parent()
+            .append(
+                '<img src="' +
+                    chart.toBase64Image() +
+                    '" class="d-none"/>'
+            );
 
-        if(element.parent().parent().find('.iq-card-header')){
-            element.parent().parent().find('.iq-card-header').find('.download-button').remove();
-            element.parent().parent().find('.iq-card-header').append('<a class="btn btn-xs btn-primary download-button pull-right" style="margin-top: 0px !important" href="'+(chart.toBase64Image())+'" download="'+(element.parent().parent().find('.card-title').text())+'"><i class="la la-download"></i></a>');
+        if (element.parent().parent().find('.iq-card-header')) {
+            element
+                .parent()
+                .parent()
+                .find('.iq-card-header')
+                .find('.download-button')
+                .remove();
+            element
+                .parent()
+                .parent()
+                .find('.iq-card-header')
+                .append(
+                    '<a class="btn btn-xs btn-primary download-button pull-right" style="margin-top: 0px !important" href="' +
+                        chart.toBase64Image() +
+                        '" download="' +
+                        element
+                            .parent()
+                            .parent()
+                            .find('.card-title')
+                            .text() +
+                        '"><i class="la la-download"></i></a>'
+                );
         }
 
-        if(element.parent().parent().find('.project-card-header')){
-            element.parent().parent().find('.project-card-header').find('.download-button').remove();
-            element.parent().parent().find('.project-card-header').append('<a class="btn btn-xs btn-primary download-button pull-right" style="margin-top: -25px !important" href="'+(chart.toBase64Image())+'" download="'+(element.parent().parent().find('h5').text())+'"><i class="la la-download"></i></a>');
+        if (element.parent().parent().find('.project-card-header')) {
+            element
+                .parent()
+                .parent()
+                .find('.project-card-header')
+                .find('.download-button')
+                .remove();
+            element
+                .parent()
+                .parent()
+                .find('.project-card-header')
+                .append(
+                    '<a class="btn btn-xs btn-primary download-button pull-right" style="margin-top: -25px !important" href="' +
+                        chart.toBase64Image() +
+                        '" download="' +
+                        element
+                            .parent()
+                            .parent()
+                            .find('h5')
+                            .text() +
+                        '"><i class="la la-download"></i></a>'
+                );
         }
     }
 
-    //Chart Options
+    // Chart Options
     function randomColors(value) {
         let colors = [];
-        for(var i=0;i<value;i++){
-            if(colorBank().length >= i){
+        for (var i = 0; i < value; i++) {
+            if (colorBank().length >= i) {
                 colors.push(colorBank()[i]);
-            }else{
+            } else {
                 colors.push(randomBackgroundColor().color);
             }
         }
@@ -135,25 +223,20 @@ $(document).ready(function() {
             'rgb(255, 165, 0)',
             'rgb(106, 90, 205)',
             'rgb(60, 60, 60)',
-            'rgba(255, 99, 71, 1)',
+            'rgba(255, 99, 71, 1)'
         ];
 
-        return ($key ? colors[key] : colors);
+        return $key ? colors[key] : colors;
     }
 
     function randomBackgroundColor() {
         var x = Math.floor(Math.random() * 256);
         var y = 100 + Math.floor(Math.random() * 256);
         var z = 50 + Math.floor(Math.random() * 256);
-        var bgColor = "rgb(" + x + "," + y + "," + z + ")";
-        var opColor = "rgb(" + x + "," + y + "," + z +","+ 0.5+")";
-        return {color:bgColor,opacity:opColor};
+        var bgColor = 'rgb(' + x + ',' + y + ',' + z + ')';
+        return { color: bgColor };
     }
-
-    $('.counter').counterUp({
-      delay: 10,
-      time: 1000
-    });
 });
+
 </script>
 @endsection
