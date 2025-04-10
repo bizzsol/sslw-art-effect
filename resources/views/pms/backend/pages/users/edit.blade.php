@@ -421,61 +421,64 @@
                 companies: companies
             },
         })
-        .done(function(response) {
-            var user_departments = <?php echo json_encode($userDepartments) ?>;
-            var user_cost_centres = <?php echo json_encode($userCostCentres) ?>;
-            var user_cost_centre_id = "{{ $user->cost_centre_id }}";
-            var departments = '';
-            $.each(response.units, function(index, unit) {
-                departments += '<div class="row mb-2">'+
-                                    '<div class="col-md-12 mb-2">'+
-                                        '<div class="icheck-primary d-inline">'+
-                                            '<input type="checkbox"onchange="checkDepartments($(this))" id="user_unit_id_'+unit.hr_unit_id+'" data-id="'+unit.hr_unit_id+'">'+
-                                            '<label for="user_unit_id_'+unit.hr_unit_id+'" class="text-primary"><strong>['+unit.hr_unit_code+'] '+unit.hr_unit_name+'&nbsp;&nbsp;&nbsp;</strong></label>'+
-                                        '</div>'+
-                                    '</div>'+
-                                    '<div class="col-md-12">';
-                $.each(unit.departments, function(index, department) {
-                    departments += '<div class="icheck-primary d-inline">'+
-                                        '<input type="checkbox" id="user_department_id_'+department.hr_department_id+'" name="user_department_id[]" value="'+department.hr_department_id+'"  class="user_department_id user_department_id_'+unit.hr_unit_id+'" '+(user_departments.includes(department.hr_department_id) ? 'checked' : '')+'>'+
-                                        '<label for="user_department_id_'+department.hr_department_id+'" class="text-primary">['+department.hr_department_code+'] '+department.hr_department_name+'&nbsp;&nbsp;&nbsp;</label>'+
-                                    '</div>';
-                });
-                departments += '</div>'+
+            .done(function(response) {
+                var user_departments = <?php echo json_encode($userDepartments) ?>;
+                var user_cost_centres = <?php echo json_encode($userCostCentres) ?>;
+                var user_cost_centre_id = "{{ $user->cost_centre_id }}";
+                var departments = '';
+
+                $.each(response.units, function(index, unit) {
+                    departments += '<div class="row mb-2">'+
+                        '<div class="col-md-12 mb-2">'+
+                        '<div class="icheck-primary d-inline">'+
+                        '<input type="checkbox" onchange="checkDepartments($(this))" id="user_unit_id_'+unit.hr_unit_id+'" data-id="'+unit.hr_unit_id+'">'+
+                        '<label for="user_unit_id_'+unit.hr_unit_id+'" class="text-primary"><strong>['+unit.hr_unit_code+'] '+unit.hr_unit_name+'&nbsp;&nbsp;&nbsp;</strong></label>'+
+                        '</div>'+
+                        '</div>'+
+                        '<div class="col-md-12">';
+
+                    $.each(unit.departments, function(index, department) {
+                        departments += '<div class="icheck-primary d-inline">'+
+                            '<input type="checkbox" id="user_department_id_'+department.hr_department_id+'" name="user_department_id[]" value="'+department.hr_department_id+'" class="user_department_id user_department_id_'+unit.hr_unit_id+'" '+(user_departments.includes(department.hr_department_id) ? 'checked' : '')+'>'+
+                            '<label for="user_department_id_'+department.hr_department_id+'" class="text-primary">['+department.hr_department_code+'] '+department.hr_department_name+'&nbsp;&nbsp;&nbsp;</label>'+
                             '</div>';
-            });
-            $('#departments-view').html(departments);
-
-            var cost_centre_multiple = '';
-            var cost_centre_id = '';
-            $.each(response.companies, function(index, company) {
-                cost_centre_multiple += '<optgroup label="['+company.code+'] '+company.name+'">';
-                $.each(company.profit_centres, function(index, profit_centre) {
-                    cost_centre_multiple += '<optgroup label="&nbsp;&nbsp;['+profit_centre.code+'] '+profit_centre.name+'">';
-                    $.each(profit_centre.cost_centres, function(index, cost_centre) {
-                        cost_centre_multiple += '<option value="'+cost_centre.id+'" '+(user_cost_centres.includes(cost_centre.id) ? 'selected' : '')+'>&nbsp;&nbsp;&nbsp;&nbsp;['+cost_centre.code+'] '+cost_centre.name+'</option>'
                     });
-                    cost_centre_multiple += '</optgroup>';
+
+                    departments += '</div></div>';
                 });
-                cost_centre_multiple += '</optgroup>';
 
-                cost_centre_id += '<optgroup label="['+company.code+'] '+company.name+'">';
-                $.each(company.profit_centres, function(index, profit_centre) {
-                    cost_centre_id += '<optgroup label="&nbsp;&nbsp;['+profit_centre.code+'] '+profit_centre.name+'">';
-                    $.each(profit_centre.cost_centres, function(index, cost_centre) {
-                        cost_centre_id += '<option value="'+cost_centre.id+'" '+(user_cost_centre_id == cost_centre.id ? 'selected' : '')+'>&nbsp;&nbsp;&nbsp;&nbsp;['+cost_centre.code+'] '+cost_centre.name+'</option>'
+                $('#departments-view').html(departments);
+
+                var cost_centre_multiple = '';
+                var cost_centre_id = '';
+
+                $.each(response.companies, function(index, company) {
+                    cost_centre_multiple += '<optgroup label="['+company.code+'] '+company.name+'">';
+                    cost_centre_id += '<optgroup label="['+company.code+'] '+company.name+'">';
+
+                    $.each(company.profit_centres, function(index, profit_centre) {
+                        cost_centre_multiple += '<option disabled>&nbsp;&nbsp;['+profit_centre.code+'] '+profit_centre.name+'</option>';
+                        cost_centre_id += '<option disabled>&nbsp;&nbsp;['+profit_centre.code+'] '+profit_centre.name+'</option>';
+
+                        $.each(profit_centre.cost_centres, function(index, cost_centre) {
+                            cost_centre_multiple += '<option value="'+cost_centre.id+'" '+(user_cost_centres.includes(cost_centre.id) ? 'selected' : '')+'>'+
+                                '&nbsp;&nbsp;&nbsp;&nbsp;['+cost_centre.code+'] '+cost_centre.name+'</option>';
+
+                            cost_centre_id += '<option value="'+cost_centre.id+'" '+(user_cost_centre_id == cost_centre.id ? 'selected' : '')+'>'+
+                                '&nbsp;&nbsp;&nbsp;&nbsp;['+cost_centre.code+'] '+cost_centre.name+'</option>';
+                        });
                     });
+
+                    cost_centre_multiple += '</optgroup>';
                     cost_centre_id += '</optgroup>';
                 });
-                cost_centre_id += '</optgroup>';
-            });
-            
-            $('#cost_centres').html(cost_centre_multiple).select2();
-            $('#cost_centre_id').html(cost_centre_id).select2();
 
-            // getSections();
-        });
+                $('#cost_centres').html(cost_centre_multiple).select2();
+                $('#cost_centre_id').html(cost_centre_id).select2();
+            });
     }
+
+
 
     function getSections() {
         var departments = $('input:checkbox.user_department_id:checked').map(function () {

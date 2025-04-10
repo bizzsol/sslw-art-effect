@@ -501,46 +501,52 @@
             data: {
                 companies: companies
             },
-        })
-        .done(function(response) {
+        }).done(function (response) {
+            // Generate department checkboxes
             var departments = '';
-            $.each(response.units, function(index, unit) {
-                departments += '<div class="row mb-2">'+
-                                    '<div class="col-md-12 mb-2">'+
-                                        '<div class="icheck-primary d-inline">'+
-                                            '<input type="checkbox"onchange="checkDepartments($(this))" id="user_unit_id_'+unit.hr_unit_id+'" data-id="'+unit.hr_unit_id+'">'+
-                                            '<label for="user_unit_id_'+unit.hr_unit_id+'" class="text-primary"><strong>['+unit.hr_unit_code+'] '+unit.hr_unit_name+'&nbsp;&nbsp;&nbsp;</strong></label>'+
-                                        '</div>'+
-                                    '</div>'+
-                                    '<div class="col-md-12">';
-                $.each(unit.departments, function(index, department) {
-                    departments += '<div class="icheck-primary d-inline">'+
-                                        '<input type="checkbox" id="user_department_id_'+department.hr_department_id+'" name="user_department_id[]" value="'+department.hr_department_id+'" class="user_department_id user_department_id_'+unit.hr_unit_id+'">'+
-                                        '<label for="user_department_id_'+department.hr_department_id+'" class="text-primary">['+department.hr_department_code+'] '+department.hr_department_name+'&nbsp;&nbsp;&nbsp;</label>'+
-                                    '</div>';
+            $.each(response.units, function (index, unit) {
+                departments += '<div class="row mb-2">' +
+                    '<div class="col-md-12 mb-2">' +
+                    '<div class="icheck-primary d-inline">' +
+                    '<input type="checkbox" onchange="checkDepartments($(this))" id="user_unit_id_' + unit.hr_unit_id + '" data-id="' + unit.hr_unit_id + '">' +
+                    '<label for="user_unit_id_' + unit.hr_unit_id + '" class="text-primary"><strong>[' + unit.hr_unit_code + '] ' + unit.hr_unit_name + '&nbsp;&nbsp;&nbsp;</strong></label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-12">';
+                $.each(unit.departments, function (index, department) {
+                    departments += '<div class="icheck-primary d-inline">' +
+                        '<input type="checkbox" id="user_department_id_' + department.hr_department_id + '" name="user_department_id[]" value="' + department.hr_department_id + '" class="user_department_id user_department_id_' + unit.hr_unit_id + '">' +
+                        '<label for="user_department_id_' + department.hr_department_id + '" class="text-primary">[' + department.hr_department_code + '] ' + department.hr_department_name + '&nbsp;&nbsp;&nbsp;</label>' +
+                        '</div>';
                 });
-                departments += '</div>'+
-                            '</div>';
+                departments += '</div></div>';
             });
             $('#departments-view').html(departments);
 
+            // Generate cost centre dropdown
             var cost_centres = '';
-            $.each(response.companies, function(index, company) {
-                cost_centres += '<optgroup label="['+company.code+'] '+company.name+'">';
-                $.each(company.profit_centres, function(index, profit_centre) {
-                    cost_centres += '<optgroup label="&nbsp;&nbsp;['+profit_centre.code+'] '+profit_centre.name+'">';
-                    $.each(profit_centre.cost_centres, function(index, cost_centre) {
-                        cost_centres += '<option value="'+cost_centre.id+'">&nbsp;&nbsp;&nbsp;&nbsp;['+cost_centre.code+'] '+cost_centre.name+'</option>'
+            $.each(response.companies, function (index, company) {
+                cost_centres += '<optgroup label="[' + company.code + '] ' + company.name + '">';
+
+                $.each(company.profit_centres, function (index, profit_centre) {
+                    // visually nested profit center as a disabled option
+                    cost_centres += '<option disabled>&nbsp;&nbsp;[' + profit_centre.code + '] ' + profit_centre.name + '</option>';
+
+                    $.each(profit_centre.cost_centres, function (index, cost_centre) {
+                        cost_centres += '<option value="' + cost_centre.id + '">' +
+                            '&nbsp;&nbsp;&nbsp;&nbsp;[' + cost_centre.code + '] ' + cost_centre.name +
+                            '</option>';
                     });
-                    cost_centres += '</optgroup>';
                 });
+
                 cost_centres += '</optgroup>';
             });
-            
+
             $('#cost_centres').html(cost_centres).select2();
             $('#cost_centre_id').html(cost_centres).select2();
         });
     }
+
 
     function getSections() {
         var departments = $('input:checkbox.user_department_id:checked').map(function () {
