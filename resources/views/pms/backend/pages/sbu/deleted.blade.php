@@ -18,11 +18,8 @@
                     </li>
                     <li class="active">{{__($title)}} List</li>
                     <li class="top-nav-btn">
-                        <a href="{{route('pms.sbu.create')}}" class="btn btn-sm btn-primary text-white"
-                           data-toggle="tooltip" title="Add New SBU"> <i class="las la-plus"></i>Add New SBU</a>
-
-                        <a href="{{route('pms.sbu.deleted.list')}}" class="btn btn-sm btn-danger text-white"
-                           data-toggle="tooltip" title="Deleted SBU"> <i class="las la-ban"></i>View Deleted SBU</a>
+                        <a href="{{route('pms.sbu.index')}}" class="btn btn-sm btn-primary text-white"
+                           data-toggle="tooltip" title="Active SBU"> <i class="las la-check"></i>View Active SBU</a>
                     </li>
                 </ul>
             </div>
