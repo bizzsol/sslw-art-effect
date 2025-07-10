@@ -258,13 +258,15 @@
                          <ul class="navbar-list">
                             <li>
                                <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-                                  @if(auth()->user()->employee)
+                                  @if(auth()->check() && auth()->user()->employee)
                                   <img src='{{ emp_profile_picture(auth()->user()->employee)}}' class="img-fluid rounded mr-3" alt="{{ auth()->user()->name }}" >
                                   @else
                                     <img class="img-fluid rounded mr-3" src="{{ asset('assets/images/user/09.jpg') }} ">
                                   @endif
                                   <div class="caption">
+                                    @auth
                                      <h6 class="mb-0 line-height">{{ auth()->user()->name }}</h6>
+                                     @endauth
                                      <span class="font-size-12">Available</span>
                                   </div>
                                </a>
@@ -272,7 +274,9 @@
                                   <div class="iq-card shadow-none m-0">
                                      <div class="iq-card-body p-0 ">
                                         <div class="bg-primary p-3">
+                                          @auth
                                            <h5 class="mb-0 text-white line-height">Hello {{ auth()->user()->name }}</h5>
+                                           @endauth
                                            <span class="text-white font-size-12">Available</span>
                                         </div>
                                         <a href="{{url('profile')}}" class="iq-sub-card iq-bg-primary-hover">
