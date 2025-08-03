@@ -78,8 +78,8 @@
 
                                     <div class="col-md-12">
                                         <div class="form-group row">
-                                            <div class="col-md-4 mb-3">
-                                                <label for="is_otp_enable"><strong>Is OTP & Recaptcha Enable <span
+                                            <div class="col-md-2 mb-3">
+                                                <label for="is_otp_enable"><strong>Is OTP Enable ?<span
                                                                 class="text-danger">*</span></strong></label>
                                                 <select id="is_otp_enable" name="is_otp_enable" required
                                                         class="form-control">
@@ -89,6 +89,22 @@
                                                     </option>
                                                     <option
                                                             value="yes" {{$systemInformation->is_otp_enable=='yes'?'selected':''}}>
+                                                        Yes
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 mb-3">
+                                                <label for="is_capture_enable"><strong>Is Recaptcha Enable ? <span
+                                                                class="text-danger">*</span></strong></label>
+                                                <select id="is_capture_enable" name="is_capture_enable" required
+                                                        class="form-control">
+                                                    <option
+                                                            value="no" {{$systemInformation->is_capture_enable=='no'?'selected':''}}>
+                                                        No
+                                                    </option>
+                                                    <option
+                                                            value="yes" {{$systemInformation->is_capture_enable=='yes'?'selected':''}}>
                                                         Yes
                                                     </option>
                                                 </select>
@@ -111,7 +127,50 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <div class="col-md-3 mb-3">
+                                                <label for="smtp_mailer"><strong>Mailer:</strong></label>
+                                                <input type="text" class="form-control" name="smtp_mailer"
+                                                       value="{{ $systemInformation->smtp_mailer ?? 'smtp' }}" id="smtp_mailer" readonly>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="smtp_host"><strong>SMTP Host:</strong></label>
+                                                <input type="text" class="form-control" name="smtp_host"
+                                                       value="{{ $systemInformation->smtp_host }}" id="smtp_host">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="smtp_port"><strong>SMTP Port:</strong></label>
+                                                <input type="text" class="form-control" name="smtp_port"
+                                                       value="{{ $systemInformation->smtp_port }}" id="smtp_port">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="smtp_encryption"><strong>Encryption:</strong></label>
+                                                <input type="text" class="form-control" name="smtp_encryption"
+                                                       value="{{ $systemInformation->smtp_encryption }}" id="smtp_encryption">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="smtp_username"><strong>SMTP Username:</strong></label>
+                                                <input type="text" class="form-control" name="smtp_username"
+                                                       value="{{ $systemInformation->smtp_username }}" id="smtp_username">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="smtp_password"><strong>SMTP Password:</strong></label>
+                                                <input type="password" class="form-control" name="smtp_password"
+                                                       value="{{ $systemInformation->smtp_password }}" id="smtp_password">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="smtp_from_address"><strong>From Email:</strong></label>
+                                                <input type="email" class="form-control" name="smtp_from_address"
+                                                       value="{{ $systemInformation->smtp_from_address }}" id="smtp_from_address">
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label for="smtp_from_name"><strong>From Name:</strong></label>
+                                                <input type="text" class="form-control" name="smtp_from_name"
+                                                       value="{{ $systemInformation->smtp_from_name }}" id="smtp_from_name">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="form-group row">
                                             <div class="col-md-3 mb-3">

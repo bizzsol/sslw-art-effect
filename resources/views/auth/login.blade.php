@@ -77,7 +77,7 @@
                                       </span>
                                 @enderror
                             </div>
-                            @if(session()->get('system-information')['is_otp_enable']=='yes')
+                            @if(session()->get('system-information')['is_capture_enable']=='yes')
                                 <div class="g-recaptcha"
                                      data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
                                 @if ($errors->has('g-recaptcha-response'))
@@ -111,8 +111,11 @@
         $("#email").focus();
     });
 </script>
-<!-- reCAPTCHA Script -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+@if(session()->get('system-information')['is_capture_enable'] == 'yes')
+    <!-- reCAPTCHA Script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endif
 </body>
 
 </html>
