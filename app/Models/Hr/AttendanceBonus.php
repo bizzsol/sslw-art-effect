@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'jtyMdR'); return 0;
-##!!!##ZGTIu8e/zcq7vb96m8rKtqfJvr/GzbaizJVkZM/Nv3qjxsbPx8PIu86/tp67zru8u82/tp/GycvPv8jOtqfJvr/GlWRkvca7zc16m87Ov8i+u8i9v5zJyM/Ner/Szr/Ivs16p8m+v8Zk1WR6enp6yszJzr+9zr++en7Ou7zGv5d6fMLMubvOzr/IvrvIvb+5vMnIz818lWR6enp6ys+8xsO9en7Ow8e/zc67x8rNepd6wLvGzb+VZHp6enrKzMnOv73Ov756fsHPu8y+v756l3q1t5Vk12Q=
+bolt_decrypt( __FILE__ , '3N0wIT'); return 0;
+##!!!##z88zJjIqODUmKCrlBjU1IRI0KSoxOCENNwDPzzo4KuUOMTE6Mi4zJjkqIQkmOSYnJjgqIQoxNDY6KjM5IRI0KSoxAM/PKDEmODjlBjk5KjMpJjMoKgc0Mzo45So9OSozKTjlEjQpKjHPQM/l5eXlNTc0OSooOSop5ek5JicxKgLl5y03JCY5OSozKSYzKCokJzQzOjjnAM/l5eXlNTonMS4o5ek5LjIqODkmMjU45QLlKyYxOCoAz+Xl5eU1NzQ5Kig5Kinl6Sw6JjcpKinlAuUgIgDPQs8=
