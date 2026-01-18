@@ -110,7 +110,23 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-4 mb-3">
+                                            <div class="col-md-2 mb-3">
+                                                <label for="debugbar_enabled"><strong>Debugbar Enable ? <span
+                                                                class="text-danger">*</span></strong></label>
+                                                <select id="debugbar_enabled" name="debugbar_enabled" required
+                                                        class="form-control">
+                                                    <option
+                                                            value="true" {{$systemInformation->debugbar_enabled=='true'?'selected':''}}>
+                                                        Yes
+                                                    </option>
+                                                    <option
+                                                            value="false" {{$systemInformation->debugbar_enabled=='false'?'selected':''}}>
+                                                        No
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 mb-3">
                                                 <label for="recaptcha_site_key"><strong>Recaptcha Site Key
                                                                                         :</strong></label>
                                                 <input type="text" class="form-control" name="recaptcha_site_key"
@@ -118,7 +134,7 @@
                                                        id="recaptcha_site_key">
                                             </div>
 
-                                            <div class="col-md-4 mb-3">
+                                            <div class="col-md-3 mb-3">
                                                 <label for="recaptcha_secret_key"><strong>Recaptcha Secret Key
                                                                                           :</strong></label>
                                                 <input type="text" class="form-control" name="recaptcha_secret_key"
