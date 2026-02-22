@@ -170,6 +170,22 @@
                                 <i class="las la-info-circle"></i>
                                 Leave empty to use default naming (database_timestamp.sql)
                             </p>
+                            
+                            <hr>
+                            
+                            <label><strong>Backup Type</strong></label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="mode" value="full" checked>
+                                    <strong>Full Backup</strong> (All tables, skip log data)
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="mode" value="logs">
+                                    <strong>Logs Only</strong> (transaction_logs & entry_logs data)
+                                </label>
+                            </div>
                         </div>
 
                         <!-- Progress Bar Section (Hidden by default) -->
