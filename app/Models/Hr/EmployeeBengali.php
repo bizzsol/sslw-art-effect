@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'QEGCG7'); return 0;
-##!!!##qKgM/wsDEQ7/AQO+3w4O+usNAgMKEfrmENmoqBMRA77nCgoTCwcM/xID+uL/Ev8A/xED+uMKDQ8TAwwS+usNAgMK2aioAQr/ERG+4wsOCg0XAwPgAwwF/woHvgMWEgMMAhG+6w0CAwqoGai+vr6+DhANEgMBEgMCvsIS/wAKA77bvsAGEP0DCw4KDRcDA/0AAwwF/woHwNmoqL6+vr4OEA0SAwESAwK+wgUT/xACAwK+2775wAYQ/QAM/QcCwPvZqKi+vr6+DhMACgcBvsISBwsDERL/Cw4Rvtu+BP8KEQPZqBuo
+bolt_decrypt( __FILE__ , '5uuipy'); return 0;
+##!!!##e3vf0t7W5OHS1NaRsuHhzb7g1dbd5M2546x7e+bk1pG63d3m3trf0uXWzbXS5dLT0uTWzbbd4OLm1t/lzb7g1dbdrHt71N3S5OSRtt7h3eDq1taz1t/Y0t3akdbp5dbf1eSRvuDV1t177HuRkZGR4ePg5dbU5dbVkZXl0tPd1pGukZPZ49DW3uHd4OrW1tDT1t/Y0t3ak6x7e5GRkZHh4+Dl1tTl1tWRldjm0uPV1tWRrpHMk9nj0NPf0NrVk86se3uRkZGR4ebT3drUkZXl2t7W5OXS3uHkka6R19Ld5Nase+57
