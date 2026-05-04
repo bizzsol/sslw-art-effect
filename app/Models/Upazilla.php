@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'ic450z'); return 0;
-##!!!##6elNQExEUk9AQkT/IE9POyxOQ0RLUhrp6VRSRP8oS0tUTEhNQFNEOyNAU0BBQFJEOyRLTlBURE1TOyxOQ0RLGunpQktAUlL/NE9AWUhLS0D/RFdTRE1DUv8sTkNES+la6f////9PUU5TREJTREP/A1NAQUtE/xz/AUdRPlRPQFlIS0tAARrp6f////9PVEFLSEL/A1NITERSU0BMT1L/HP9FQEtSRBr/6Vzp
+bolt_decrypt( __FILE__ , 'fK8fwz'); return 0;
+##!!!##Skquoa2ls7Cho6VggbCwnI2vpKWss3tKSrWzpWCJrKy1ramuobSlnIShtKGiobOlnIWsr7G1pa60nI2vpKWse0pKo6yhs7NglbChuqmsrKFgpbi0pa6ks2CNr6SlrEq7SmBgYGCwsq+0paO0paRgZLShoqylYH1gYqiyn7WwobqprKyhYntKSmBgYGCwtaKsqaNgZLSpraWztKGtsLNgfWCmoayzpXtgSr1K
