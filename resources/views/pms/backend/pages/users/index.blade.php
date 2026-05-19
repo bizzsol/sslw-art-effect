@@ -65,6 +65,39 @@
     </div>
 </div>
 <!-- END Modal ------------------------------------------------------------------------->
+<!-- Reset Password Modal ------------------------------------------------------------------------->
+<div class="modal fade bd-example-modal-md" id="resetPasswordModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reset User Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="resetPasswordForm">
+                <div class="modal-body">
+                    @csrf
+                    <input type="hidden" name="id" id="reset_user_id">
+                    <div class="form-group">
+                        <label for="new_password">New Password</label>
+                        <input type="password" name="new_password" id="new_password" class="form-control" placeholder="Enter new password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_confirm_password">Confirm Password</label>
+                        <input type="password" name="new_confirm_password" id="new_confirm_password" class="form-control" placeholder="Confirm new password" required>
+                    </div>
+                    <div id="resetPasswordMessage"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="resetPasswordBtn">Reset Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- END Reset Password Modal ------------------------------------------------------------------------->
 @endsection
 
 @section('page-script')
@@ -74,5 +107,43 @@
         $('#dataBody').empty().load('{{URL::to(Request()->route()->getPrefix()."/users")}}/'+userId);
         $('#showUserDetailsModal').modal('show');
     }
+
+    function resetUserPasswordModal(userId) {
+        $('#reset_user_id').val(userId);
+        $('#new_password').val('');
+        $('#new_confirm_password').val('');
+        $('#resetPasswordMessage').html('');
+        $('#resetPasswordModal').modal('show');
+    }
+
+    $(document).ready(function() {
+        $('#resetPasswordForm').on('submit', function(e) {
+            e.preventDefault();
+            var btn = $('#resetPasswordBtn');
+            btn.html('<i class="la la-spinner la-spin"></i> Processing...').prop('disabled', true);
+
+            $.ajax({
+                url: '{{ route("pms.admin.users.resetPassword") }}',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        $('#resetPasswordMessage').html('<div class="alert alert-success">' + response.message + '</div>');
+                        setTimeout(function() {
+                            $('#resetPasswordModal').modal('hide');
+                        }, 1500);
+                    } else {
+                        $('#resetPasswordMessage').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    }
+                },
+                error: function(xhr) {
+                    $('#resetPasswordMessage').html('<div class="alert alert-danger">Something went wrong. Please try again.</div>');
+                },
+                complete: function() {
+                    btn.html('Reset Password').prop('disabled', false);
+                }
+            });
+        });
+    });
 </script>
 @endsection
