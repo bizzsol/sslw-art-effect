@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , '3nPxg9'); return 0;
-##!!!##ExN3anZufHlqbG4pSnl5ZVZ4bW51fGVRe0QTE358bilSdXV+dnJ3an1uZU1qfWpranxuZU51eHp+bnd9ZVZ4bW51RBMTbHVqfHwpSn19bndtandsbkt4d358V26AKW6BfW53bXwpVnhtbnUThBMpKSkpeXt4fW5sfW5tKS19amt1bkYpK3F7aGp9fW53bWp3bG5oa3h3fnxobYJ3anZybCtEEykpKSl5fmt1cmwpLX1ydm58fWp2eXwpRilvanV8bkQTKSkpKXl7eH1ubH1ubSktcH5qe21ubSlGKWRmRBOGEw==
+bolt_decrypt( __FILE__ , 'uq0E22'); return 0;
+##!!!##ycktICwkMi8gIiTfAC8vGwwuIyQrMhsHMfrJyTQyJN8IKys0LCgtIDMkGwMgMyAhIDIkGwQrLjA0JC0zGwwuIyQr+snJIisgMjLfADMzJC0jIC0iJAEuLTQyDSQ23yQ3MyQtIzLfDC4jJCvJOsnf39/fLzEuMyQiMyQj3+MzICErJPzf4ScxHiAzMyQtIyAtIiQeIS4tNDIeIzgtICwoIuH6yd/f398vNCErKCLf4zMoLCQyMyAsLzLf/N8lICsyJPrJ39/f3y8xLjMkIjMkI9/jJjQgMSMkI9/83xoc+sk8yQ==
