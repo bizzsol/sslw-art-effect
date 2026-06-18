@@ -144,6 +144,20 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><strong>Approval Process Type</strong></label>
+                                    {!! Form::select('approval_process_type', ['single_unit' => 'Single Unit', 'multi_unit' => 'Multi Unit'], old('approval_process_type', 'single_unit'), ['class' => 'form-control', 'id' => 'approval_process_type']) !!}
+                                    @if ($errors->has('approval_process_type'))
+                                    <span class="help-block">
+                                        <strong class="text-danger">{{ $errors->first('approval_process_type') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label><strong>Assign Role(s)</strong></label>
@@ -183,6 +197,19 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label><strong>Approval Process Type</strong></label>
+                                    {!! Form::select('approval_process_type', ['single_unit' => 'Single Unit', 'multi_unit' => 'Multi Unit'], old('approval_process_type', 'single_unit'), ['class' => 'form-control', 'id' => 'approval_process_type']) !!}
+                                    @if ($errors->has('approval_process_type'))
+                                    <span class="help-block">
+                                        <strong class="text-danger">{{ $errors->first('approval_process_type') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
