@@ -1,5 +1,5 @@
 @extends('pms.backend.layouts.master-layout')
-@section('title', session()->get('system-information')['name']. ' | '.$title)
+@section('title', session()->get('system-information')['name'] . ' | ' . $title)
 @section('page-css')
     @include('yajra.css')
 @endsection
@@ -19,8 +19,7 @@
                     <li class="active">{{__($title)}} List</li>
                     <li class="top-nav-btn">
                         <button onclick="document.getElementById('createBackupModal').style.display='block'"
-                                class="btn btn-sm btn-primary text-white"
-                                data-toggle="tooltip" title="Create New Backup">
+                            class="btn btn-sm btn-primary text-white" data-toggle="tooltip" title="Create New Backup">
                             <i class="las la-plus"></i> Create New Backup
                         </button>
                     </li>
@@ -74,47 +73,45 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
-                                        <tr>
-                                            <th width="50">
-                                                <input type="checkbox" id="selectAllCheckbox" onclick="toggleAll(this)">
-                                            </th>
-                                            <th><i class="las la-file"></i> Filename</th>
-                                            <th width="120"><i class="las la-hdd"></i> Size</th>
-                                            <th width="180"><i class="las la-calendar"></i> Created Date</th>
-                                            <th width="200" class="text-center"><i class="las la-cog"></i> Actions</th>
-                                        </tr>
+                                            <tr>
+                                                <th width="50">
+                                                    <input type="checkbox" id="selectAllCheckbox" onclick="toggleAll(this)">
+                                                </th>
+                                                <th><i class="las la-file"></i> Filename</th>
+                                                <th width="120"><i class="las la-hdd"></i> Size</th>
+                                                <th width="180"><i class="las la-calendar"></i> Created Date</th>
+                                                <th width="200" class="text-center"><i class="las la-cog"></i> Actions</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($backups as $backup)
-                                            <tr>
-                                                <td>
-                                                    <input type="checkbox" class="backup-checkbox"
-                                                           value="{{ $backup['name'] }}">
-                                                </td>
-                                                <td>
-                                                    <i class="las la-file-archive text-primary"></i>
-                                                    <strong>{{ $backup['name'] }}</strong>
-                                                </td>
-                                                <td>
-                                                    <span class="label label-info">{{ $backup['size'] }}</span>
-                                                </td>
-                                                <td>
-                                                    <i class="las la-clock"></i> {{ $backup['date'] }}
-                                                </td>
-                                                <td class="text-center">
-                                                    <a href="{{ route('pms.backups.download', $backup['name']) }}"
-                                                       class="btn btn-xs btn-success"
-                                                       data-toggle="tooltip" title="Download">
-                                                        <i class="las la-download"></i> Download
-                                                    </a>
-                                                    <button onclick="deleteBackup('{{ $backup['name'] }}')"
-                                                            class="btn btn-xs btn-danger"
-                                                            data-toggle="tooltip" title="Delete">
-                                                        <i class="las la-trash"></i> Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                            @foreach($backups as $backup)
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" class="backup-checkbox"
+                                                            value="{{ $backup['name'] }}">
+                                                    </td>
+                                                    <td>
+                                                        <i class="las la-file-archive text-primary"></i>
+                                                        <strong>{{ $backup['name'] }}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span class="label label-info">{{ $backup['size'] }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <i class="las la-clock"></i> {{ $backup['date'] }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="{{ route('pms.backups.download', $backup['name']) }}"
+                                                            class="btn btn-xs btn-success" data-toggle="tooltip" title="Download">
+                                                            <i class="las la-download"></i> Download
+                                                        </a>
+                                                        <button onclick="deleteBackup('{{ $backup['name'] }}')"
+                                                            class="btn btn-xs btn-danger" data-toggle="tooltip" title="Delete">
+                                                            <i class="las la-trash"></i> Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -124,7 +121,8 @@
                                     <i class="las la-info-circle"></i>
                                     <strong>Total Backups:</strong> {{ $backups->count() }} |
                                     <strong>Total
-                                            Size:</strong> {{ $backups->sum('size_bytes') > 0 ? number_format($backups->sum('size_bytes') / 1024 / 1024, 2) . ' MB' : '0 MB' }}
+                                        Size:</strong>
+                                    {{ $backups->sum('size_bytes') > 0 ? number_format($backups->sum('size_bytes') / 1024 / 1024, 2) . ' MB' : '0 MB' }}
                                 </div>
                             @else
                                 <div class="text-center py-5">
@@ -132,7 +130,7 @@
                                     <h4 class="text-muted">No backups found</h4>
                                     <p class="text-muted">Get started by creating a new backup.</p>
                                     <button onclick="document.getElementById('createBackupModal').style.display='block'"
-                                            class="btn btn-primary mt-2">
+                                        class="btn btn-primary mt-2">
                                         <i class="las la-plus"></i> Create First Backup
                                     </button>
                                 </div>
@@ -152,7 +150,7 @@
                     @csrf
                     <div class="modal-header">
                         <button type="button" class="close"
-                                onclick="document.getElementById('createBackupModal').style.display='none'">&times;
+                            onclick="document.getElementById('createBackupModal').style.display='none'">&times;
                         </button>
                         <h4 class="modal-title">
                             <i class="las la-database"></i> Create Database Backup
@@ -163,21 +161,26 @@
                             <label for="backup-name">
                                 <strong>Backup Name (Optional)</strong>
                             </label>
-                            <input type="text" name="name" id="backup-name"
-                                   class="form-control"
-                                   placeholder="e.g., before-update">
+                            <input type="text" name="name" id="backup-name" class="form-control"
+                                placeholder="e.g., before-update">
                             <p class="help-block">
                                 <i class="las la-info-circle"></i>
                                 Leave empty to use default naming (database_timestamp.sql)
                             </p>
-                            
+
                             <hr>
-                            
+
                             <label><strong>Backup Type</strong></label>
                             <div class="radio">
                                 <label>
                                     <input type="radio" name="mode" value="full" checked>
                                     <strong>Full Backup</strong> (All tables, skip log data)
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="mode" value="without_entries">
+                                    <strong>All Tables</strong> (All tables without entiries & transection log)
                                 </label>
                             </div>
                             <div class="radio">
@@ -193,8 +196,8 @@
                             <h5 class="text-center" id="progressMessage">Starting backup...</h5>
                             <div class="progress" style="height: 25px;">
                                 <div id="backupProgressBar" class="progress-bar progress-bar-striped active"
-                                     role="progressbar"
-                                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                    style="width: 0%;">
                                     0%
                                 </div>
                             </div>
@@ -203,7 +206,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" id="btnCloseModal"
-                                onclick="document.getElementById('createBackupModal').style.display='none'">
+                            onclick="document.getElementById('createBackupModal').style.display='none'">
                             <i class="las la-times"></i> Cancel
                         </button>
                         <button type="submit" class="btn btn-primary" id="btnStartBackup">
@@ -222,8 +225,7 @@
     </form>
 
     <!-- Delete Multiple Form (Hidden) -->
-    <form id="deleteMultipleForm" action="{{ route('pms.backups.destroy-multiple') }}" method="POST"
-          style="display: none;">
+    <form id="deleteMultipleForm" action="{{ route('pms.backups.destroy-multiple') }}" method="POST" style="display: none;">
         @csrf
         <div id="selectedBackupsContainer"></div>
     </form>
