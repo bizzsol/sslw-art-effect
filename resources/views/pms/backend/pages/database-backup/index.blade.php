@@ -185,6 +185,27 @@
                             </div>
                             <div class="radio">
                                 <label>
+                                    <input type="radio" name="mode" value="entries_only">
+                                    <strong>Entries Only</strong> (only entry data, scoped to a fiscal year)
+                                </label>
+                            </div>
+
+                            <!-- Fiscal Year selector (only for Entries Only mode) -->
+                            <div class="form-group" id="fiscalYearGroup" style="display: none; margin-left: 20px;">
+                                <label for="fiscal-year"><strong>Fiscal Year</strong></label>
+                                <select name="fiscal_year_id[]" id="fiscal-year" class="form-control">
+                                    @foreach($fiscalYears as $fy)
+                                        <option value="{{ $fy->id }}">{{ $fy->title }}</option>
+                                    @endforeach
+                                </select>
+                                <p class="help-block">
+                                    <i class="las la-info-circle"></i>
+                                    Only entries (and related items/logs) for this fiscal year are exported.
+                                </p>
+                            </div>
+
+                            <div class="radio">
+                                <label>
                                     <input type="radio" name="mode" value="logs">
                                     <strong>Logs Only</strong> (transaction_logs & entry_logs data)
                                 </label>
@@ -233,6 +254,14 @@
 @endsection
 @section('page-script')
     <script>
+        // Toggle Fiscal Year selector based on chosen backup mode
+        document.querySelectorAll('input[name="mode"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                document.getElementById('fiscalYearGroup').style.display =
+                    (this.value === 'entries_only' && this.checked) ? 'block' : 'none';
+            });
+        });
+
         // Handle Backup Form Submission
         document.querySelector('#createBackupModal form').addEventListener('submit', function (e) {
             e.preventDefault();
