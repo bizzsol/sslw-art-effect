@@ -22,6 +22,10 @@
                             class="btn btn-sm btn-primary text-white" data-toggle="tooltip" title="Create New Backup">
                             <i class="las la-plus"></i> Create New Backup
                         </button>
+                        <button onclick="document.getElementById('importBackupModal').style.display='block'"
+                            class="btn btn-sm btn-success text-white" data-toggle="tooltip" title="Import Backup">
+                            <i class="las la-upload"></i> Import Backup
+                        </button>
                     </li>
 
                 </ul>
@@ -239,6 +243,71 @@
         </div>
     </div>
 
+    <!-- Import Backup Modal -->
+    <div id="importBackupModal" class="modal" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="importBackupForm" action="{{ route('pms.backups.import') }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                            onclick="document.getElementById('importBackupModal').style.display='none'">&times;
+                        </button>
+                        <h4 class="modal-title">
+                            <i class="las la-upload"></i> Import Backup (.sql)
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" id="importInputGroup">
+                            <label for="sql-file"><strong>SQL File</strong></label>
+                            <input type="file" name="sql_file" id="sql-file" class="form-control" accept=".sql">
+                            <p class="help-block">
+                                <i class="las la-info-circle"></i>
+                                Upload an "Entries Only" file to sync a fiscal year, or any backup .sql file.
+                            </p>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ignore_duplicates" value="1" checked>
+                                    <strong>Skip duplicate rows</strong> (INSERT IGNORE — recommended for sync)
+                                </label>
+                            </div>
+
+                            <div class="alert alert-warning">
+                                <i class="las la-exclamation-triangle"></i>
+                                Import writes directly to the database. Make sure the structure already
+                                exists (run an "All Tables" backup/restore first) before syncing entries.
+                            </div>
+                        </div>
+
+                        <!-- Import Progress Bar (Hidden by default) -->
+                        <div id="importProgressSection" style="display: none;">
+                            <h5 class="text-center" id="importProgressMessage">Starting import...</h5>
+                            <div class="progress" style="height: 25px;">
+                                <div id="importProgressBar" class="progress-bar progress-bar-striped active"
+                                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                    style="width: 0%;">
+                                    0%
+                                </div>
+                            </div>
+                            <p class="text-center text-muted small">Please do not close this window.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="btnCloseImportModal"
+                            onclick="document.getElementById('importBackupModal').style.display='none'">
+                            <i class="las la-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-success" id="btnStartImport">
+                            <i class="las la-upload"></i> Start Import
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Delete Form (Hidden) -->
     <form id="deleteForm" method="POST" style="display: none;">
         @csrf
@@ -348,6 +417,86 @@
             }
         });
 
+        // Handle Import Form Submission
+        document.getElementById('importBackupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const form = this;
+            const fileInput = document.getElementById('sql-file');
+            const btnStart = document.getElementById('btnStartImport');
+            const btnClose = document.getElementById('btnCloseImportModal');
+            const inputGroup = document.getElementById('importInputGroup');
+            const progressSection = document.getElementById('importProgressSection');
+            const progressBar = document.getElementById('importProgressBar');
+            const progressMessage = document.getElementById('importProgressMessage');
+
+            if (!fileInput.files.length) {
+                alert('Please choose a .sql file to import.');
+                return;
+            }
+
+            btnStart.disabled = true;
+            btnClose.disabled = true;
+            inputGroup.style.display = 'none';
+            progressSection.style.display = 'block';
+
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        startImportPolling();
+                    } else {
+                        alert('Error: ' + data.message);
+                        resetImportModal();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    startImportPolling();
+                });
+
+            function startImportPolling() {
+                const pollInterval = setInterval(() => {
+                    fetch('{{ route("pms.backups.import-status") }}')
+                        .then(res => res.json())
+                        .then(status => {
+                            const percent = status.percent || 0;
+                            progressBar.style.width = percent + '%';
+                            progressBar.innerText = percent + '%';
+
+                            if (status.message) {
+                                progressMessage.innerText = status.message;
+                            }
+
+                            if (status.status === 'completed') {
+                                clearInterval(pollInterval);
+                                progressBar.classList.remove('active');
+                                progressBar.classList.add('progress-bar-success');
+                                progressMessage.innerText = 'Import Complete! Reloading...';
+                                setTimeout(() => window.location.reload(), 1200);
+                            } else if (status.status === 'error') {
+                                clearInterval(pollInterval);
+                                alert('Import Failed: ' + status.message);
+                                resetImportModal();
+                            }
+                        })
+                        .catch(err => console.error('Import polling error', err));
+                }, 2000);
+            }
+
+            function resetImportModal() {
+                btnStart.disabled = false;
+                btnClose.disabled = false;
+                inputGroup.style.display = 'block';
+                progressSection.style.display = 'none';
+                progressBar.style.width = '0%';
+            }
+        });
+
         function deleteBackup(filename) {
             if (confirm('Are you sure you want to delete this backup?')) {
                 const form = document.getElementById('deleteForm');
@@ -405,6 +554,13 @@
                 // Only close if not running
                 if (document.getElementById('backupProgressSection').style.display === 'none') {
                     modal.style.display = 'none';
+                }
+            }
+
+            const importModal = document.getElementById('importBackupModal');
+            if (event.target == importModal) {
+                if (document.getElementById('importProgressSection').style.display === 'none') {
+                    importModal.style.display = 'none';
                 }
             }
         }
