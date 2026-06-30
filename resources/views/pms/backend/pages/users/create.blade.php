@@ -336,83 +336,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            @if ($errors->has('permission'))
-                                <span class="help-block"><strong class="text-danger">{{ $errors->first('permission') }}</strong></span>
-                                <br>
-                            @endif
-
-                            <div class="col-md-12">
-                                <h4 class="text-center">Allow Permissions (&nbsp;<label for="check_all" style="cursor: pointer">
-                                    <input type="checkbox" name="check_all" id="check_all">&nbsp;Check all Permissions
-                                </label>)</h4>
-                                <hr>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="row">
-                                    @php
-                                        $chunk_counter = 0;
-                                    @endphp
-                                    @if(isset($modules[0]))
-                                    @foreach($modules as $key => $module)
-                                        @php
-                                            $modulePermissions = collect(Spatie\Permission\Models\Permission::where('module', $module)->get())->chunk(12)
-                                        @endphp
-                                        @foreach($modulePermissions as $chunk)
-                                        @php
-                                            $chunk_counter++;
-                                        @endphp
-                                        <div class="col-3">
-                                            <h5 class="">
-                                                <label for="check_all_module-{{ $chunk_counter  }}" style="cursor: pointer">
-                                                    <input type="checkbox" class="check-all-module" data-counter="{{ $chunk_counter  }}" id="check_all_module-{{ $chunk_counter  }}" style="transform: scale(1.25, 1.25)">&nbsp;&nbsp;&nbsp;<strong>{{ $module }}</strong>
-                                                </label>
-                                            </h5>
-                                            @foreach($chunk as $permission)
-                                            <label>
-                                                <input name="permission[]" type="checkbox" value="{{ $permission->id }}" class="name module-permissions-{{ $chunk_counter }} permissions">&nbsp;
-                                                {{ $permission->name }}
-                                            </label>
-                                            <br/>
-                                            @endforeach
-                                        </div>
-                                        @endforeach
-                                    @endforeach
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="row">
-                                    @php
-                                        $chunk_counter = 0;
-                                    @endphp
-                                    @if(isset($permissions[0]))
-                                    @foreach($permissions as $key => $chunk)
-                                    @php
-                                        $chunk_counter++;
-                                    @endphp
-                                        <div class="col-3">
-                                            <h5 class="">
-                                                <label for="check_all_permission-{{ $chunk_counter  }}" style="cursor: pointer">
-                                                    <input type="checkbox" class="check-all-permission" data-counter="{{ $chunk_counter }}" id="check_all_permission-{{ $chunk_counter  }}" style="transform: scale(1.25, 1.25)">&nbsp;&nbsp;&nbsp;<strong>Allow Permissions</strong>
-                                                </label>
-                                            </h5>
-                                            @foreach($chunk as $permission)
-                                            <label>
-                                                <input name="permission[]" type="checkbox" value="{{ $permission->id }}" class="name permission-permmissions-{{ $chunk_counter }} permissions">&nbsp;
-                                                {{ $permission->name }}
-                                            </label>
-                                            <br/>
-                                            @endforeach
-                                        </div>
-                                    @endforeach
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row pt-3">
                             <div class="col-md-6 offset-md-3">
                                 <button type="submit" class="btn btn-primary user-from-button"><i class="la la-check"></i>&nbsp;Save User</button>
@@ -432,34 +355,6 @@
 @endsection
 @section('page-script')
 <script>
-    $(document).ready(function() {
-        $('#check_all').change(function () {
-            if($('#check_all').is(':checked')){
-                $('.permissions').prop('checked', true);
-                $('.check-all-module').prop('checked', true);
-            }else{
-                $('.permissions').prop('checked', false);
-                $('.check-all-module').prop('checked', false);
-            }
-        });
-
-        $('.check-all-module').change(function(event) {
-            if($(this).is(':checked')){
-                $('.module-permissions-'+$(this).attr('data-counter')).prop('checked', true);
-            }else{
-                $('.module-permissions-'+$(this).attr('data-counter')).prop('checked', false);
-            }
-        });
-
-        $('.check-all-permission').change(function(event) {
-            if($(this).is(':checked')){
-                $('.permission-permissions-'+$(this).attr('data-counter')).prop('checked', true);
-            }else{
-                $('.permission-permissions-'+$(this).attr('data-counter')).prop('checked', false);
-            }
-        });
-    });
-
     function photoLoad(input,image_load) {
         var target_image='#'+$('#'+image_load).prev().children().attr('id');
 
@@ -634,18 +529,18 @@
                 if(response.success){
                     window.open("{{ route('pms.admin.users.index') }}", "_parent");
                 }else{
-                    notify(response.message, 'error');
+                    toastr.error(response.message);
                 }
                 button.prop('disabled', false).html(buttonContent);
             })
-            .fail(function(response) {
-                var errors = '<ul class="pl-3">';
-                $.each(response.responseJSON.errors, function(index, val) {
-                    errors += '<li>'+val[0]+'</li>';
-                });
-                errors += '</ul>';
-                notify(response.message, 'errors');
-
+            .fail(function(xhr) {
+                if(xhr.responseJSON && xhr.responseJSON.errors){
+                    $.each(xhr.responseJSON.errors, function(field, msgs) {
+                        toastr.error(msgs[0]);
+                    });
+                }else{
+                    toastr.error('Something went wrong. Please check the form and try again.');
+                }
                 button.prop('disabled', false).html(buttonContent);
             });
         });
