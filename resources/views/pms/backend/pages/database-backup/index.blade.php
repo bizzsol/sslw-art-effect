@@ -255,16 +255,16 @@
                             onclick="document.getElementById('importBackupModal').style.display='none'">&times;
                         </button>
                         <h4 class="modal-title">
-                            <i class="las la-upload"></i> Import Backup (.sql)
+                            <i class="las la-upload"></i> Import Backup (.sql / .sql.gz)
                         </h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group" id="importInputGroup">
                             <label for="sql-file"><strong>SQL File</strong></label>
-                            <input type="file" name="sql_file" id="sql-file" class="form-control" accept=".sql">
+                            <input type="file" name="sql_file" id="sql-file" class="form-control" accept=".sql,.gz">
                             <p class="help-block">
                                 <i class="las la-info-circle"></i>
-                                Upload an "Entries Only" file to sync a fiscal year, or any backup .sql file.
+                                Upload an "Entries Only" file to sync a fiscal year, or any backup .sql / .sql.gz file.
                             </p>
 
                             <div class="checkbox">
