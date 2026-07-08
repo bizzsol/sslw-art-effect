@@ -187,6 +187,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-12">
                                         <div class="form-group row">
                                             <div class="col-md-3 mb-3">
@@ -205,9 +206,12 @@
                                                        value="{{$systemInformation->instagram}}" id="instagram">
                                             </div>
                                             <div class="col-md-3 mb-3">
-                                                <label for="skype"><strong>Skype :</strong></label>
-                                                <input type="text" class="form-control" name="skype"
-                                                       value="{{$systemInformation->skype}}" id="skype">
+                                                <label for="skype"><strong>Queue Driver:</strong></label>
+                                                <select name="skype" id="skype" class="form-control">
+                                                    <option value="sync" {{ $systemInformation->skype == 'sync' ? 'selected' : '' }}>Sync (default)</option>
+                                                    <option value="database" {{ $systemInformation->skype == 'database' ? 'selected' : '' }}>Database Queue</option>
+                                                </select>
+                                                <small class="text-muted">Use "Database Queue" for background backup jobs.</small>
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="linked_in"><strong>Linked In :</strong></label>

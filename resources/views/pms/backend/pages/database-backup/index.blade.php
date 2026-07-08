@@ -26,6 +26,10 @@
                             class="btn btn-sm btn-success text-white" data-toggle="tooltip" title="Import Backup">
                             <i class="las la-upload"></i> Import Backup
                         </button>
+                        <button onclick="runQueueWorker()"
+                            class="btn btn-sm btn-info text-white" data-toggle="tooltip" title="Process Queue Jobs">
+                            <i class="las la-play"></i> Process Queue
+                        </button>
                     </li>
 
                 </ul>
@@ -216,9 +220,8 @@
                             </div>
                         </div>
 
-                        <!-- Progress Bar Section (Hidden by default) -->
                         <div id="backupProgressSection" style="display: none;">
-                            <h5 class="text-center" id="progressMessage">Starting backup...</h5>
+                            <h5 class="text-center" id="progressMessage">Starting...</h5>
                             <div class="progress" style="height: 25px;">
                                 <div id="backupProgressBar" class="progress-bar progress-bar-striped active"
                                     role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
@@ -226,7 +229,6 @@
                                     0%
                                 </div>
                             </div>
-                            <p class="text-center text-muted small">Please do not close this window.</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -291,7 +293,6 @@
                                     0%
                                 </div>
                             </div>
-                            <p class="text-center text-muted small">Please do not close this window.</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -321,9 +322,20 @@
     </form>
 
 @endsection
+
+<!-- Floating Status Banner -->
+<div id="backupStatusBanner" class="alert" style="display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9999; border-radius: 0; margin-bottom: 0; text-align: center;">
+    <span id="bannerIcon" class="las la-spinner la-spin" style="font-size: 18px; margin-right: 8px;"></span>
+    <span id="bannerMessage"></span>
+    <button type="button" class="close" onclick="dismissBanner()" style="position: absolute; right: 15px; top: 10px;">&times;</button>
+</div>
+
 @section('page-script')
     <script>
-        // Toggle Fiscal Year selector based on chosen backup mode
+        var backupPollInterval = null;
+        var importPollInterval = null;
+
+        // ---------- Toggle Fiscal Year selector ----------
         document.querySelectorAll('input[name="mode"]').forEach(function (radio) {
             radio.addEventListener('change', function () {
                 document.getElementById('fiscalYearGroup').style.display =
@@ -331,82 +343,155 @@
             });
         });
 
-        // Handle Backup Form Submission
+        // ---------- Banner helpers ----------
+        function showBanner(type, message, persist) {
+            var banner = document.getElementById('backupStatusBanner');
+            var icon = document.getElementById('bannerIcon');
+            var msg = document.getElementById('bannerMessage');
+            banner.className = 'alert alert-' + type;
+            banner.style.display = 'block';
+            icon.className = type === 'success' ? 'las la-check-circle' : (type === 'danger' ? 'las la-exclamation-circle' : 'las la-spinner la-spin');
+            msg.innerText = message;
+            if (!persist) {
+                setTimeout(function () { banner.style.display = 'none'; }, 5000);
+            }
+        }
+
+        function dismissBanner() {
+            document.getElementById('backupStatusBanner').style.display = 'none';
+        }
+
+        // ---------- Browser Notification ----------
+        function notifyUser(title, body) {
+            if (!('Notification' in window)) return;
+            if (Notification.permission === 'granted') {
+                new Notification(title, { body: body, icon: '/favicon.ico' });
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(function (p) {
+                    if (p === 'granted') new Notification(title, { body: body, icon: '/favicon.ico' });
+                });
+            }
+        }
+
+        // ---------- Check for active jobs on page load ----------
+        function checkActiveJobs() {
+            fetch('{{ route("pms.backups.status") }}')
+                .then(function (r) { return r.json(); })
+                .then(function (status) {
+                    if (status.status === 'processing' || status.status === 'started') {
+                        showBanner('info', 'Backup in progress: ' + (status.message || 'Working...'), true);
+                        startBackgroundBackupPolling();
+                    }
+                });
+
+            fetch('{{ route("pms.backups.import-status") }}')
+                .then(function (r) { return r.json(); })
+                .then(function (status) {
+                    if (status.status === 'processing' || status.status === 'started') {
+                        showBanner('info', 'Import in progress: ' + (status.message || 'Working...'), true);
+                        startBackgroundImportPolling();
+                    }
+                });
+        }
+
+        // ---------- Background Backup Polling (runs regardless of modal) ----------
+        function startBackgroundBackupPolling() {
+            if (backupPollInterval) return;
+            backupPollInterval = setInterval(function () {
+                fetch('{{ route("pms.backups.status") }}')
+                    .then(function (r) { return r.json(); })
+                    .then(function (status) {
+                        if (status.status === 'processing' || status.status === 'started') {
+                            showBanner('info', 'Backup: ' + (status.message || 'Working...'), true);
+                        } else if (status.status === 'completed') {
+                            clearInterval(backupPollInterval);
+                            backupPollInterval = null;
+                            showBanner('success', 'Backup completed: ' + status.filename, false);
+                            notifyUser('Backup Complete', 'Your database backup "' + status.filename + '" finished successfully.');
+                            setTimeout(function () { location.reload(); }, 3000);
+                        } else if (status.status === 'error') {
+                            clearInterval(backupPollInterval);
+                            backupPollInterval = null;
+                            showBanner('danger', 'Backup failed: ' + status.message, false);
+                            notifyUser('Backup Failed', status.message);
+                        }
+                    });
+            }, 3000);
+        }
+
+        // ---------- Background Import Polling ----------
+        function startBackgroundImportPolling() {
+            if (importPollInterval) return;
+            importPollInterval = setInterval(function () {
+                fetch('{{ route("pms.backups.import-status") }}')
+                    .then(function (r) { return r.json(); })
+                    .then(function (status) {
+                        if (status.status === 'processing' || status.status === 'started') {
+                            showBanner('info', 'Import: ' + (status.message || 'Working...'), true);
+                        } else if (status.status === 'completed') {
+                            clearInterval(importPollInterval);
+                            importPollInterval = null;
+                            showBanner('success', 'Import completed: ' + status.filename, false);
+                            notifyUser('Import Complete', 'Database import "' + status.filename + '" finished successfully.');
+                            setTimeout(function () { location.reload(); }, 3000);
+                        } else if (status.status === 'error') {
+                            clearInterval(importPollInterval);
+                            importPollInterval = null;
+                            showBanner('danger', 'Import failed: ' + status.message, false);
+                            notifyUser('Import Failed', status.message);
+                        }
+                    });
+            }, 3000);
+        }
+
+        // ---------- Handle Backup Form Submission ----------
         document.querySelector('#createBackupModal form').addEventListener('submit', function (e) {
             e.preventDefault();
+            var form = this;
+            var btnStart = document.getElementById('btnStartBackup');
+            var btnClose = document.getElementById('btnCloseModal');
+            var inputGroup = document.getElementById('backupInputGroup');
+            var progressSection = document.getElementById('backupProgressSection');
+            var progressBar = document.getElementById('backupProgressBar');
+            var progressMessage = document.getElementById('progressMessage');
 
-            const form = this;
-            const btnStart = document.getElementById('btnStartBackup');
-            const btnClose = document.getElementById('btnCloseModal');
-            const inputGroup = document.getElementById('backupInputGroup');
-            const progressSection = document.getElementById('backupProgressSection');
-            const progressBar = document.getElementById('backupProgressBar');
-            const progressMessage = document.getElementById('progressMessage');
-
-            // UI State: Running
             btnStart.disabled = true;
             btnClose.disabled = true;
             inputGroup.style.display = 'none';
             progressSection.style.display = 'block';
 
-            // Start Backup Process
             fetch(form.action, {
                 method: 'POST',
                 body: new FormData(form),
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
-                .then(response => response.json())
-                .then(data => {
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
                     if (data.status === 'success') {
-                        // Start Polling
-                        startPolling();
+                        progressMessage.innerText = 'Backup started!';
+                        progressBar.style.width = '10%';
+
+                        showBanner('info', 'Backup started in background. You can close this window.', false);
+
+                        // Close modal after short delay
+                        setTimeout(function () {
+                            document.getElementById('createBackupModal').style.display = 'none';
+                            resetModal();
+                        }, 1500);
+
+                        startBackgroundBackupPolling();
                     } else {
                         alert('Error: ' + data.message);
                         resetModal();
                     }
                 })
-                .catch(error => {
-                    // If it's not JSON (redirect or error), check response or alert
-                    console.error(error);
-                    // Fallback polling just in case it started
-                    startPolling();
+                .catch(function () {
+                    startBackgroundBackupPolling();
+                    setTimeout(function () {
+                        document.getElementById('createBackupModal').style.display = 'none';
+                        resetModal();
+                    }, 1500);
                 });
-
-            function startPolling() {
-                const pollInterval = setInterval(() => {
-                    fetch('{{ route("pms.backups.status") }}')
-                        .then(res => res.json())
-                        .then(status => {
-                            // Update Progress
-                            const percent = status.percent || 0;
-                            progressBar.style.width = percent + '%';
-                            progressBar.innerText = percent + '%';
-
-                            if (status.message) {
-                                progressMessage.innerText = status.message;
-                            }
-
-                            if (status.status === 'completed') {
-                                clearInterval(pollInterval);
-                                progressBar.classList.remove('active');
-                                progressBar.classList.add('progress-bar-success');
-                                progressMessage.innerText = 'Backup Complete! Reloading...';
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 1000);
-                            } else if (status.status === 'error') {
-                                clearInterval(pollInterval);
-                                alert('Backup Failed: ' + status.message);
-                                resetModal();
-                            }
-                        })
-                        .catch(err => {
-                            console.error('Polling error', err);
-                        });
-                }, 2000);
-            }
 
             function resetModal() {
                 btnStart.disabled = false;
@@ -417,18 +502,17 @@
             }
         });
 
-        // Handle Import Form Submission
+        // ---------- Handle Import Form Submission ----------
         document.getElementById('importBackupForm').addEventListener('submit', function (e) {
             e.preventDefault();
-
-            const form = this;
-            const fileInput = document.getElementById('sql-file');
-            const btnStart = document.getElementById('btnStartImport');
-            const btnClose = document.getElementById('btnCloseImportModal');
-            const inputGroup = document.getElementById('importInputGroup');
-            const progressSection = document.getElementById('importProgressSection');
-            const progressBar = document.getElementById('importProgressBar');
-            const progressMessage = document.getElementById('importProgressMessage');
+            var form = this;
+            var fileInput = document.getElementById('sql-file');
+            var btnStart = document.getElementById('btnStartImport');
+            var btnClose = document.getElementById('btnCloseImportModal');
+            var inputGroup = document.getElementById('importInputGroup');
+            var progressSection = document.getElementById('importProgressSection');
+            var progressBar = document.getElementById('importProgressBar');
+            var progressMessage = document.getElementById('importProgressMessage');
 
             if (!fileInput.files.length) {
                 alert('Please choose a .sql file to import.');
@@ -445,48 +529,32 @@
                 body: new FormData(form),
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
-                .then(response => response.json())
-                .then(data => {
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
                     if (data.status === 'success') {
-                        startImportPolling();
+                        progressMessage.innerText = 'Import started!';
+                        progressBar.style.width = '10%';
+
+                        showBanner('info', 'Import started in background. You can close this window.', false);
+
+                        setTimeout(function () {
+                            document.getElementById('importBackupModal').style.display = 'none';
+                            resetImportModal();
+                        }, 1500);
+
+                        startBackgroundImportPolling();
                     } else {
                         alert('Error: ' + data.message);
                         resetImportModal();
                     }
                 })
-                .catch(error => {
-                    console.error(error);
-                    startImportPolling();
+                .catch(function () {
+                    startBackgroundImportPolling();
+                    setTimeout(function () {
+                        document.getElementById('importBackupModal').style.display = 'none';
+                        resetImportModal();
+                    }, 1500);
                 });
-
-            function startImportPolling() {
-                const pollInterval = setInterval(() => {
-                    fetch('{{ route("pms.backups.import-status") }}')
-                        .then(res => res.json())
-                        .then(status => {
-                            const percent = status.percent || 0;
-                            progressBar.style.width = percent + '%';
-                            progressBar.innerText = percent + '%';
-
-                            if (status.message) {
-                                progressMessage.innerText = status.message;
-                            }
-
-                            if (status.status === 'completed') {
-                                clearInterval(pollInterval);
-                                progressBar.classList.remove('active');
-                                progressBar.classList.add('progress-bar-success');
-                                progressMessage.innerText = 'Import Complete! Reloading...';
-                                setTimeout(() => window.location.reload(), 1200);
-                            } else if (status.status === 'error') {
-                                clearInterval(pollInterval);
-                                alert('Import Failed: ' + status.message);
-                                resetImportModal();
-                            }
-                        })
-                        .catch(err => console.error('Import polling error', err));
-                }, 2000);
-            }
 
             function resetImportModal() {
                 btnStart.disabled = false;
@@ -497,72 +565,85 @@
             }
         });
 
+        // ---------- Deletion helpers ----------
         function deleteBackup(filename) {
             if (confirm('Are you sure you want to delete this backup?')) {
-                const form = document.getElementById('deleteForm');
+                var form = document.getElementById('deleteForm');
                 form.action = '{{ route("pms.backups.destroy", "") }}/' + filename;
                 form.submit();
             }
         }
 
         function toggleAll(checkbox) {
-            const checkboxes = document.querySelectorAll('.backup-checkbox');
-            checkboxes.forEach(cb => cb.checked = checkbox.checked);
+            document.querySelectorAll('.backup-checkbox').forEach(function (cb) { cb.checked = checkbox.checked; });
         }
 
         function selectAll() {
-            const checkboxes = document.querySelectorAll('.backup-checkbox');
-            checkboxes.forEach(cb => cb.checked = true);
+            document.querySelectorAll('.backup-checkbox').forEach(function (cb) { cb.checked = true; });
             document.getElementById('selectAllCheckbox').checked = true;
         }
 
         function deselectAll() {
-            const checkboxes = document.querySelectorAll('.backup-checkbox');
-            checkboxes.forEach(cb => cb.checked = false);
+            document.querySelectorAll('.backup-checkbox').forEach(function (cb) { cb.checked = false; });
             document.getElementById('selectAllCheckbox').checked = false;
         }
 
         function deleteSelected() {
-            const checkboxes = document.querySelectorAll('.backup-checkbox:checked');
-
-            if (checkboxes.length === 0) {
-                alert('Please select at least one backup to delete.');
-                return;
-            }
-
-            if (confirm(`Are you sure you want to delete ${checkboxes.length} backup(s)?`)) {
-                const form = document.getElementById('deleteMultipleForm');
-                const container = document.getElementById('selectedBackupsContainer');
+            var checkboxes = document.querySelectorAll('.backup-checkbox:checked');
+            if (checkboxes.length === 0) { alert('Please select at least one backup to delete.'); return; }
+            if (confirm('Are you sure you want to delete ' + checkboxes.length + ' backup(s)?')) {
+                var form = document.getElementById('deleteMultipleForm');
+                var container = document.getElementById('selectedBackupsContainer');
                 container.innerHTML = '';
-
-                checkboxes.forEach(checkbox => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'backups[]';
-                    input.value = checkbox.value;
+                checkboxes.forEach(function (cb) {
+                    var input = document.createElement('input');
+                    input.type = 'hidden'; input.name = 'backups[]'; input.value = cb.value;
                     container.appendChild(input);
                 });
-
                 form.submit();
             }
         }
 
         // Close modal when clicking outside
         window.onclick = function (event) {
-            const modal = document.getElementById('createBackupModal');
-            if (event.target == modal) {
-                // Only close if not running
+            var createModal = document.getElementById('createBackupModal');
+            if (event.target == createModal) {
                 if (document.getElementById('backupProgressSection').style.display === 'none') {
-                    modal.style.display = 'none';
+                    createModal.style.display = 'none';
                 }
             }
-
-            const importModal = document.getElementById('importBackupModal');
+            var importModal = document.getElementById('importBackupModal');
             if (event.target == importModal) {
                 if (document.getElementById('importProgressSection').style.display === 'none') {
                     importModal.style.display = 'none';
                 }
             }
+        };
+
+        // Check for active jobs on page load
+        document.addEventListener('DOMContentLoaded', checkActiveJobs);
+
+        // Run queue worker
+        function runQueueWorker() {
+            var btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="las la-spinner la-spin"></i> Starting...';
+            fetch('{{ route("pms.run-queue-worker") }}')
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.status === 'success') {
+                        showBanner('success', data.message, false);
+                    } else {
+                        showBanner('danger', data.message, false);
+                    }
+                })
+                .catch(function() {
+                    showBanner('danger', 'Failed to start queue worker.', false);
+                })
+                .finally(function() {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="las la-play"></i> Process Queue';
+                });
         }
     </script>
 @endsection
