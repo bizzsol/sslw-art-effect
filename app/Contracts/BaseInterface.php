@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'ChLAMB'); return 0;
+bolt_decrypt( __FILE__ , 'HSGSLF'); return 0;
 ##!!!##0TUoNCw6NygqLOcINzcjCjY1OzkoKjs6AtHRMDU7LDktKCos5wkoOiwQNTssOS0oKixC0efn5+c3PCkzMCrnLTw1KjswNjXnKDMz7/AC0efn5/b25zc8KTMwKuctPDUqOzA2Nec3KC4wNSg7LO/rKjY8NTvwAtHn5+fnNzwpMzAq5y08NSo7MDY15y0wNSvv6zAr8+s5LDMoOzA2NQQiJPAC0efn5/bx5zc8KTMwKuctPDUqOzA2NectMDUrCUDv6y0wLDMr8+s9KDM8LPAC0efn5+c3PCkzMCrnLTw1KjswNjXnOjs2OSzv6ysoOyjwAtHn5+fnNzwpMzAq5y08NSo7MDY15zw3Kyg7LO/rKyg7KPAC0efn5+c3PCkzMCrnLTw1KjswNjXnKywzLDss7+swK/AC8fbR0UQ=
