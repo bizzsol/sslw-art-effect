@@ -1,3 +1,3 @@
 <?php
-bolt_decrypt( __FILE__ , 'rJX978'); return 0;
+bolt_decrypt( __FILE__ , '1d6VIR'); return 0;
 ##!!!##xsYqHSkhLywdHyHc/SwsGAkrICEoLxgELvfGxjEvIdwFKCgxKSUqHTAhGAAdMB0eHS8hGAEoKy0xISowGAkrICEo98bGHygdLy/cCR0s/ysvMP0uIR3cITQwISogL9wJKyAhKMY3xtzc3NwsLiswIR8wISDc4DAdHigh3Pnc3iQuGx8rLzAbKR0sLCUqIxsdLiEd3vfG3Nzc3CwxHiglH9zgMCUpIS8wHSksL9z53CIdKC8h98Y5xg==
